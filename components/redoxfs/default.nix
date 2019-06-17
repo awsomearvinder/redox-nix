@@ -1,13 +1,13 @@
-{ pkgs, fetchgit, rust, fuse, pkgconfig, defaultCrateOverrides }:
+{ callPackage, fetchgit, rust, fuse, pkgconfig, buildRustCrate, defaultCrateOverrides }:
 let
   overrides = {
-    cratesIO = pkgs.callPackage ./crates-io.nix {};
-    buildRustCrate = pkgs.buildRustCrate.override {
+    cratesIO = callPackage ./crates-io.nix {};
+    buildRustCrate = buildRustCrate.override {
       rustc = rust;
     };
   };
 
-  crates = (pkgs.callPackage ./redoxfs.nix overrides);
+  crates = (callPackage ./redoxfs.nix overrides);
   redoxfs = (crates.redoxfs {}).overrideAttrs (_old: {
     src = fetchgit {
       url = https://gitlab.redox-os.org/redox-os/redoxfs;

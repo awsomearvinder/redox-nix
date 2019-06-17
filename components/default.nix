@@ -8,12 +8,22 @@ let
     date = "2019-06-17";
     channel = "nightly";
   }).rust;
+
   root = {
     redoxer = pkgs.callPackage ./redoxer {
       inherit rust root;
     };
     redoxfs = pkgs.callPackage ./redoxfs {
       inherit rust;
+    };
+    binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
+      name = "gcc-install";
+    };
+    binary-rust-install = pkgs.callPackage ./binary-toolchain.nix {
+      name = "rust-install";
+    };
+    binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {
+      name = "relibc-install";
     };
   };
 in root

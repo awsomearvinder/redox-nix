@@ -1,13 +1,13 @@
-{ root, pkgs, lib, fetchgit, rust, fuse, pkgconfig, makeWrapper, defaultCrateOverrides }:
+{ root, callPackage, lib, fetchgit, rust, fuse, pkgconfig, makeWrapper, buildRustCrate, defaultCrateOverrides }:
 let
   overrides = {
-    cratesIO = pkgs.callPackage ./crates-io.nix {};
-    buildRustCrate = pkgs.buildRustCrate.override {
+    cratesIO = callPackage ./crates-io.nix {};
+    buildRustCrate = buildRustCrate.override {
       rustc = rust;
     };
   };
 
-  crates = (pkgs.callPackage ./redoxer.nix overrides);
+  crates = (callPackage ./redoxer.nix overrides);
   redoxer = (crates.redoxer {}).overrideAttrs (_old: {
     src = fetchgit {
       url = https://gitlab.redox-os.org/redox-os/redoxer;
@@ -18,7 +18,7 @@ let
   path = lib.makeBinPath [
     rust
     root.redoxfs
-    (pkgs.callPackage ./kvm.nix {})
+    (callPackage ./kvm.nix {})
   ];
 in redoxer.override {
   crateOverrides = defaultCrateOverrides // {

@@ -20,7 +20,6 @@ in mkShell rec {
     pkgs.gcc-unwrapped stdenv.cc.libc
     (toString prefix)
   ];
-  LD_LIBRARY_PATH = LIBRARY_PATH;
 
   shellHook = ''
     export PATH="${path_prefix}:$PATH"
