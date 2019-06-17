@@ -47,3 +47,15 @@ git clone --recurse-submodules https://gitlab.redox-os.org/redox-os/redox-nix
 cd redox-nix/redox
 direnv allow # only needed first time
 ```
+
+## Components
+
+As a part of the goal to slowly move the main build system to GNU
+make, we have started nix-ifying some repositories in the
+`components/` directory.
+
+ - [redoxfs](https://gitlab.redox-os.org/redox-os/redoxfs/) can be compiled by executing `nix-build components -A redoxfs`
+ - [redoxer](https://gitlab.redox-os.org/redox-os/redoxer/) can be compiled by executing `nix-build components -A redoxer`
+
+Every other component, for now, is available as normal in the `redox/`
+submodule.
