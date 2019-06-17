@@ -1,0 +1,7 @@
+# Make this a safe place to store all your redox-related clones
+/*/
+!redox/
+!components/
+
+# Binaries and other form of output
+result
