@@ -10,7 +10,7 @@ dontOverrideCC() {
 }
 
 dontUseBinaries() {
-    sed -i "s/^PREFIX_BINARY?=/PREFIX_BINARY?=0/g" mk/prefix.sh
+    sed -i "s/^PREFIX_BINARY\?=.*$/PREFIX_BINARY?=0/" config.mk
 }
 
 pushd "redox/mk" > /dev/null
