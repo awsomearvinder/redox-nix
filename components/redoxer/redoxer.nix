@@ -6,37 +6,37 @@ let inherit (lib.lists) fold;
 in
 rec {
   crates = cratesIO // rec {
-# redoxer-0.2.3
+# redoxer-0.2.5
 
-    crates.redoxer."0.2.3" = deps: { features?(features_.redoxer."0.2.3" deps {}) }: buildRustCrate {
+    crates.redoxer."0.2.5" = deps: { features?(features_.redoxer."0.2.5" deps {}) }: buildRustCrate {
       crateName = "redoxer";
-      version = "0.2.3";
+      version = "0.2.5";
       authors = [ "Jeremy Soller <jackpot51@gmail.com>" ];
       edition = "2018";
       src = exclude [ ".git" "target" ] ./.;
       dependencies = mapFeatures features ([
-        (cratesIO.crates."dirs"."${deps."redoxer"."0.2.3"."dirs"}" deps)
-        (cratesIO.crates."redox_installer"."${deps."redoxer"."0.2.3"."redox_installer"}" deps)
-        (cratesIO.crates."tempfile"."${deps."redoxer"."0.2.3"."tempfile"}" deps)
-        (cratesIO.crates."toml"."${deps."redoxer"."0.2.3"."toml"}" deps)
+        (cratesIO.crates."dirs"."${deps."redoxer"."0.2.5"."dirs"}" deps)
+        (cratesIO.crates."redox_installer"."${deps."redoxer"."0.2.5"."redox_installer"}" deps)
+        (cratesIO.crates."tempfile"."${deps."redoxer"."0.2.5"."tempfile"}" deps)
+        (cratesIO.crates."toml"."${deps."redoxer"."0.2.5"."toml"}" deps)
       ])
         ++ (if kernel == "linux" then mapFeatures features ([
-        (cratesIO.crates."proc_mounts"."${deps."redoxer"."0.2.3"."proc_mounts"}" deps)
+        (cratesIO.crates."proc_mounts"."${deps."redoxer"."0.2.5"."proc_mounts"}" deps)
       ]) else []);
     };
-    features_.redoxer."0.2.3" = deps: f: updateFeatures f (rec {
-      dirs."${deps.redoxer."0.2.3".dirs}".default = true;
-      proc_mounts."${deps.redoxer."0.2.3".proc_mounts}".default = true;
-      redox_installer."${deps.redoxer."0.2.3".redox_installer}".default = true;
-      redoxer."0.2.3".default = (f.redoxer."0.2.3".default or true);
-      tempfile."${deps.redoxer."0.2.3".tempfile}".default = true;
-      toml."${deps.redoxer."0.2.3".toml}".default = true;
+    features_.redoxer."0.2.5" = deps: f: updateFeatures f (rec {
+      dirs."${deps.redoxer."0.2.5".dirs}".default = true;
+      proc_mounts."${deps.redoxer."0.2.5".proc_mounts}".default = true;
+      redox_installer."${deps.redoxer."0.2.5".redox_installer}".default = true;
+      redoxer."0.2.5".default = (f.redoxer."0.2.5".default or true);
+      tempfile."${deps.redoxer."0.2.5".tempfile}".default = true;
+      toml."${deps.redoxer."0.2.5".toml}".default = true;
     }) [
-      (cratesIO.features_.dirs."${deps."redoxer"."0.2.3"."dirs"}" deps)
-      (cratesIO.features_.redox_installer."${deps."redoxer"."0.2.3"."redox_installer"}" deps)
-      (cratesIO.features_.tempfile."${deps."redoxer"."0.2.3"."tempfile"}" deps)
-      (cratesIO.features_.toml."${deps."redoxer"."0.2.3"."toml"}" deps)
-      (cratesIO.features_.proc_mounts."${deps."redoxer"."0.2.3"."proc_mounts"}" deps)
+      (cratesIO.features_.dirs."${deps."redoxer"."0.2.5"."dirs"}" deps)
+      (cratesIO.features_.redox_installer."${deps."redoxer"."0.2.5"."redox_installer"}" deps)
+      (cratesIO.features_.tempfile."${deps."redoxer"."0.2.5"."tempfile"}" deps)
+      (cratesIO.features_.toml."${deps."redoxer"."0.2.5"."toml"}" deps)
+      (cratesIO.features_.proc_mounts."${deps."redoxer"."0.2.5"."proc_mounts"}" deps)
     ];
 
 
@@ -44,7 +44,7 @@ rec {
 
   };
 
-  redoxer = crates.crates.redoxer."0.2.3" deps;
+  redoxer = crates.crates.redoxer."0.2.5" deps;
   __all = [ (redoxer {}) ];
   deps.adler32."1.0.3" = {};
   deps.arg_parser."0.1.0" = {};
@@ -56,23 +56,23 @@ rec {
     nodrop = "0.1.13";
   };
   deps.autocfg."0.1.4" = {};
-  deps.backtrace."0.3.24" = {
+  deps.backtrace."0.3.30" = {
     backtrace_sys = "0.1.28";
     cfg_if = "0.1.9";
-    libc = "0.2.55";
-    rustc_demangle = "0.1.14";
+    libc = "0.2.58";
+    rustc_demangle = "0.1.15";
     autocfg = "0.1.4";
   };
   deps.backtrace_sys."0.1.28" = {
-    libc = "0.2.55";
+    libc = "0.2.58";
     cc = "1.0.37";
   };
   deps.base64."0.9.3" = {
-    byteorder = "1.3.1";
+    byteorder = "1.3.2";
     safemem = "0.3.0";
   };
   deps.bidir_map."0.6.0" = {};
-  deps.bitflags."1.0.4" = {};
+  deps.bitflags."1.1.0" = {};
   deps.blake2_rfc."0.2.18" = {
     arrayvec = "0.4.10";
     constant_time_eq = "0.1.3";
@@ -80,7 +80,7 @@ rec {
   deps.block_buffer."0.7.3" = {
     block_padding = "0.1.4";
     byte_tools = "0.3.1";
-    byteorder = "1.3.1";
+    byteorder = "1.3.2";
     generic_array = "0.12.0";
   };
   deps.block_padding."0.1.4" = {
@@ -88,16 +88,16 @@ rec {
   };
   deps.byte_tools."0.3.1" = {};
   deps.bytecount."0.1.7" = {};
-  deps.byteorder."1.3.1" = {};
+  deps.byteorder."1.3.2" = {};
   deps.cc."1.0.37" = {};
   deps.cfg_if."0.1.9" = {};
   deps.clap."2.33.0" = {
-    bitflags = "1.0.4";
+    bitflags = "1.1.0";
     textwrap = "0.11.0";
     unicode_width = "0.1.5";
   };
   deps.cloudabi."0.0.3" = {
-    bitflags = "1.0.4";
+    bitflags = "1.1.0";
   };
   deps.constant_time_eq."0.1.3" = {};
   deps.crc32fast."1.2.0" = {
@@ -108,36 +108,36 @@ rec {
   };
   deps.dirs."1.0.5" = {
     redox_users = "0.3.0";
-    libc = "0.2.55";
+    libc = "0.2.58";
     winapi = "0.3.7";
   };
   deps.err_derive."0.1.5" = {
     proc_macro2 = "0.4.30";
     quote = "0.6.12";
-    syn = "0.15.34";
+    syn = "0.15.36";
     synstructure = "0.10.2";
     rustc_version = "0.2.3";
   };
   deps.failure."0.1.5" = {
-    backtrace = "0.3.24";
+    backtrace = "0.3.30";
     failure_derive = "0.1.5";
   };
   deps.failure_derive."0.1.5" = {
     proc_macro2 = "0.4.30";
     quote = "0.6.12";
-    syn = "0.15.34";
+    syn = "0.15.36";
     synstructure = "0.10.2";
   };
   deps.filetime."0.2.6" = {
     cfg_if = "0.1.9";
     redox_syscall = "0.1.54";
-    libc = "0.2.55";
+    libc = "0.2.58";
     winapi = "0.3.7";
   };
   deps.fixedbitset."0.1.9" = {};
   deps.fuchsia_cprng."0.1.1" = {};
   deps.fuse."0.3.1" = {
-    libc = "0.2.55";
+    libc = "0.2.58";
     log = "0.3.9";
     thread_scoped = "1.0.2";
     time = "0.1.42";
@@ -153,7 +153,7 @@ rec {
     language_tags = "0.2.2";
     log = "0.3.9";
     mime = "0.2.6";
-    num_cpus = "1.10.0";
+    num_cpus = "1.10.1";
     time = "0.1.42";
     traitobject = "0.1.0";
     typeable = "0.1.2";
@@ -178,15 +178,15 @@ rec {
   };
   deps.language_tags."0.2.2" = {};
   deps.lazy_static."1.3.0" = {};
-  deps.libc."0.2.55" = {};
-  deps.libflate."0.1.22" = {
+  deps.libc."0.2.58" = {};
+  deps.libflate."0.1.23" = {
     adler32 = "1.0.3";
-    byteorder = "1.3.1";
+    byteorder = "1.3.2";
     crc32fast = "1.2.0";
   };
   deps.liner."0.4.4" = {
     bytecount = "0.1.7";
-    termion = "1.5.2";
+    termion = "1.5.3";
     unicode_width = "0.1.5";
   };
   deps.log."0.3.9" = {
@@ -200,8 +200,8 @@ rec {
     log = "0.3.9";
   };
   deps.nodrop."0.1.13" = {};
-  deps.num_cpus."1.10.0" = {
-    libc = "0.2.55";
+  deps.num_cpus."1.10.1" = {
+    libc = "0.2.58";
   };
   deps.numtoa."0.1.0" = {};
   deps.opaque_debug."0.2.2" = {};
@@ -211,9 +211,9 @@ rec {
     err_derive = "0.1.5";
   };
   deps.pbr."1.0.1" = {
-    libc = "0.2.55";
+    libc = "0.2.58";
     time = "0.1.42";
-    termion = "1.5.2";
+    termion = "1.5.3";
     kernel32_sys = "0.2.2";
     winapi = "0.2.8";
   };
@@ -234,14 +234,14 @@ rec {
     proc_macro2 = "0.4.30";
   };
   deps.rand."0.3.23" = {
-    libc = "0.2.55";
+    libc = "0.2.58";
     rand = "0.4.6";
   };
   deps.rand."0.4.6" = {
     rand_core = "0.3.1";
     rdrand = "0.4.0";
     fuchsia_cprng = "0.1.1";
-    libc = "0.2.55";
+    libc = "0.2.58";
     winapi = "0.3.7";
   };
   deps.rand."0.6.5" = {
@@ -254,7 +254,7 @@ rec {
     rand_pcg = "0.1.2";
     rand_xorshift = "0.1.1";
     autocfg = "0.1.4";
-    libc = "0.2.55";
+    libc = "0.2.58";
     winapi = "0.3.7";
   };
   deps.rand_chacha."0.1.1" = {
@@ -273,7 +273,7 @@ rec {
   };
   deps.rand_jitter."0.1.4" = {
     rand_core = "0.4.0";
-    libc = "0.2.55";
+    libc = "0.2.58";
     winapi = "0.3.7";
   };
   deps.rand_os."0.1.3" = {
@@ -281,7 +281,7 @@ rec {
     rdrand = "0.4.0";
     cloudabi = "0.0.3";
     fuchsia_cprng = "0.1.1";
-    libc = "0.2.55";
+    libc = "0.2.58";
     winapi = "0.3.7";
   };
   deps.rand_pcg."0.1.2" = {
@@ -294,18 +294,18 @@ rec {
   deps.rdrand."0.4.0" = {
     rand_core = "0.3.1";
   };
-  deps.redox_installer."0.2.3" = {
+  deps.redox_installer."0.2.4" = {
     arg_parser = "0.1.0";
     argon2rs = "0.2.5";
     failure = "0.1.5";
-    libc = "0.2.55";
+    libc = "0.2.58";
     liner = "0.4.4";
     rand = "0.6.5";
     redox_pkgutils = "0.1.2";
     redoxfs = "0.3.3";
-    serde = "1.0.91";
-    serde_derive = "1.0.91";
-    termion = "1.5.2";
+    serde = "1.0.92";
+    serde_derive = "1.0.92";
+    termion = "1.5.3";
     toml = "0.5.1";
   };
   deps.redox_pkgutils."0.1.2" = {
@@ -313,13 +313,13 @@ rec {
     clap = "2.33.0";
     hyper = "0.10.16";
     hyper_rustls = "0.6.2";
-    libflate = "0.1.22";
+    libflate = "0.1.23";
     liner = "0.4.4";
     ordermap = "0.2.13";
     pbr = "1.0.1";
     petgraph = "0.4.13";
-    serde = "1.0.91";
-    serde_derive = "1.0.91";
+    serde = "1.0.92";
+    serde_derive = "1.0.92";
     sha3 = "0.8.2";
     tar = "0.4.26";
     toml = "0.4.10";
@@ -335,9 +335,9 @@ rec {
     rand_os = "0.1.3";
     redox_syscall = "0.1.54";
   };
-  deps.redoxer."0.2.3" = {
+  deps.redoxer."0.2.5" = {
     dirs = "1.0.5";
-    redox_installer = "0.2.3";
+    redox_installer = "0.2.4";
     tempfile = "3.0.8";
     toml = "0.5.1";
     proc_mounts = "0.2.2";
@@ -346,19 +346,19 @@ rec {
     redox_syscall = "0.1.54";
     uuid = "0.5.1";
     fuse = "0.3.1";
-    libc = "0.2.55";
+    libc = "0.2.58";
     time = "0.1.42";
   };
-  deps.remove_dir_all."0.5.1" = {
+  deps.remove_dir_all."0.5.2" = {
     winapi = "0.3.7";
   };
   deps.ring."0.13.5" = {
     untrusted = "0.6.2";
     cc = "1.0.37";
     lazy_static = "1.3.0";
-    libc = "0.2.55";
+    libc = "0.2.58";
   };
-  deps.rustc_demangle."0.1.14" = {};
+  deps.rustc_demangle."0.1.15" = {};
   deps.rustc_version."0.2.3" = {
     semver = "0.9.0";
   };
@@ -380,11 +380,11 @@ rec {
     semver_parser = "0.7.0";
   };
   deps.semver_parser."0.7.0" = {};
-  deps.serde."1.0.91" = {};
-  deps.serde_derive."1.0.91" = {
+  deps.serde."1.0.92" = {};
+  deps.serde_derive."1.0.92" = {
     proc_macro2 = "0.4.30";
     quote = "0.6.12";
-    syn = "0.15.34";
+    syn = "0.15.36";
   };
   deps.sha3."0.8.2" = {
     block_buffer = "0.7.3";
@@ -393,8 +393,8 @@ rec {
     keccak = "0.1.0";
     opaque_debug = "0.2.2";
   };
-  deps.smallvec."0.6.9" = {};
-  deps.syn."0.15.34" = {
+  deps.smallvec."0.6.10" = {};
+  deps.syn."0.15.36" = {
     proc_macro2 = "0.4.30";
     quote = "0.6.12";
     unicode_xid = "0.1.0";
@@ -402,26 +402,26 @@ rec {
   deps.synstructure."0.10.2" = {
     proc_macro2 = "0.4.30";
     quote = "0.6.12";
-    syn = "0.15.34";
+    syn = "0.15.36";
     unicode_xid = "0.1.0";
   };
   deps.tar."0.4.26" = {
     filetime = "0.2.6";
     redox_syscall = "0.1.54";
-    libc = "0.2.55";
+    libc = "0.2.58";
     xattr = "0.2.2";
   };
   deps.tempfile."3.0.8" = {
     cfg_if = "0.1.9";
     rand = "0.6.5";
-    remove_dir_all = "0.5.1";
+    remove_dir_all = "0.5.2";
     redox_syscall = "0.1.54";
-    libc = "0.2.55";
+    libc = "0.2.58";
     winapi = "0.3.7";
   };
-  deps.termion."1.5.2" = {
+  deps.termion."1.5.3" = {
     numtoa = "0.1.0";
-    libc = "0.2.55";
+    libc = "0.2.58";
     redox_syscall = "0.1.54";
     redox_termios = "0.1.1";
   };
@@ -430,15 +430,15 @@ rec {
   };
   deps.thread_scoped."1.0.2" = {};
   deps.time."0.1.42" = {
-    libc = "0.2.55";
+    libc = "0.2.58";
     redox_syscall = "0.1.54";
     winapi = "0.3.7";
   };
   deps.toml."0.4.10" = {
-    serde = "1.0.91";
+    serde = "1.0.92";
   };
   deps.toml."0.5.1" = {
-    serde = "1.0.91";
+    serde = "1.0.92";
   };
   deps.traitobject."0.1.0" = {};
   deps.typeable."0.1.2" = {};
@@ -450,7 +450,7 @@ rec {
     matches = "0.1.8";
   };
   deps.unicode_normalization."0.1.8" = {
-    smallvec = "0.6.9";
+    smallvec = "0.6.10";
   };
   deps.unicode_width."0.1.5" = {};
   deps.unicode_xid."0.1.0" = {};
@@ -482,6 +482,6 @@ rec {
   deps.winapi_i686_pc_windows_gnu."0.4.0" = {};
   deps.winapi_x86_64_pc_windows_gnu."0.4.0" = {};
   deps.xattr."0.2.2" = {
-    libc = "0.2.55";
+    libc = "0.2.58";
   };
 }

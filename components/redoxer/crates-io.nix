@@ -108,94 +108,94 @@ rec {
 
 
 # end
-# backtrace-0.3.24
+# backtrace-0.3.30
 
-  crates.backtrace."0.3.24" = deps: { features?(features_.backtrace."0.3.24" deps {}) }: buildRustCrate {
+  crates.backtrace."0.3.30" = deps: { features?(features_.backtrace."0.3.30" deps {}) }: buildRustCrate {
     crateName = "backtrace";
-    version = "0.3.24";
-    authors = [ "Alex Crichton <alex@alexcrichton.com>" "The Rust Project Developers" ];
-    sha256 = "0nxxm87p66yqm72znkpb4v22yk424azjydsayxl692b4mzn9ryvp";
+    version = "0.3.30";
+    authors = [ "The Rust Project Developers" ];
+    sha256 = "1pqabms2dmva63rs48vjamkdq0rr02jxnj5h6hyj10nljzfgvny1";
     dependencies = mapFeatures features ([
-      (crates."cfg_if"."${deps."backtrace"."0.3.24"."cfg_if"}" deps)
-      (crates."libc"."${deps."backtrace"."0.3.24"."libc"}" deps)
-      (crates."rustc_demangle"."${deps."backtrace"."0.3.24"."rustc_demangle"}" deps)
+      (crates."cfg_if"."${deps."backtrace"."0.3.30"."cfg_if"}" deps)
+      (crates."libc"."${deps."backtrace"."0.3.30"."libc"}" deps)
+      (crates."rustc_demangle"."${deps."backtrace"."0.3.30"."rustc_demangle"}" deps)
     ]
-      ++ (if features.backtrace."0.3.24".backtrace-sys or false then [ (crates.backtrace_sys."${deps."backtrace"."0.3.24".backtrace_sys}" deps) ] else []))
+      ++ (if features.backtrace."0.3.30".backtrace-sys or false then [ (crates.backtrace_sys."${deps."backtrace"."0.3.30".backtrace_sys}" deps) ] else []))
       ++ (if kernel == "windows" then mapFeatures features ([
 ]) else []);
 
     buildDependencies = mapFeatures features ([
-      (crates."autocfg"."${deps."backtrace"."0.3.24"."autocfg"}" deps)
+      (crates."autocfg"."${deps."backtrace"."0.3.30"."autocfg"}" deps)
     ]);
-    features = mkFeatures (features."backtrace"."0.3.24" or {});
+    features = mkFeatures (features."backtrace"."0.3.30" or {});
   };
-  features_.backtrace."0.3.24" = deps: f: updateFeatures f (rec {
-    autocfg."${deps.backtrace."0.3.24".autocfg}".default = true;
+  features_.backtrace."0.3.30" = deps: f: updateFeatures f (rec {
+    autocfg."${deps.backtrace."0.3.30".autocfg}".default = true;
     backtrace = fold recursiveUpdate {} [
-      { "0.3.24".addr2line =
-        (f.backtrace."0.3.24".addr2line or false) ||
-        (f.backtrace."0.3.24".gimli-symbolize or false) ||
-        (backtrace."0.3.24"."gimli-symbolize" or false); }
-      { "0.3.24".backtrace-sys =
-        (f.backtrace."0.3.24".backtrace-sys or false) ||
-        (f.backtrace."0.3.24".libbacktrace or false) ||
-        (backtrace."0.3.24"."libbacktrace" or false); }
-      { "0.3.24".coresymbolication =
-        (f.backtrace."0.3.24".coresymbolication or false) ||
-        (f.backtrace."0.3.24".default or false) ||
-        (backtrace."0.3.24"."default" or false); }
-      { "0.3.24".dbghelp =
-        (f.backtrace."0.3.24".dbghelp or false) ||
-        (f.backtrace."0.3.24".default or false) ||
-        (backtrace."0.3.24"."default" or false); }
-      { "0.3.24".default = (f.backtrace."0.3.24".default or true); }
-      { "0.3.24".dladdr =
-        (f.backtrace."0.3.24".dladdr or false) ||
-        (f.backtrace."0.3.24".default or false) ||
-        (backtrace."0.3.24"."default" or false); }
-      { "0.3.24".findshlibs =
-        (f.backtrace."0.3.24".findshlibs or false) ||
-        (f.backtrace."0.3.24".gimli-symbolize or false) ||
-        (backtrace."0.3.24"."gimli-symbolize" or false); }
-      { "0.3.24".libbacktrace =
-        (f.backtrace."0.3.24".libbacktrace or false) ||
-        (f.backtrace."0.3.24".default or false) ||
-        (backtrace."0.3.24"."default" or false); }
-      { "0.3.24".libunwind =
-        (f.backtrace."0.3.24".libunwind or false) ||
-        (f.backtrace."0.3.24".default or false) ||
-        (backtrace."0.3.24"."default" or false); }
-      { "0.3.24".memmap =
-        (f.backtrace."0.3.24".memmap or false) ||
-        (f.backtrace."0.3.24".gimli-symbolize or false) ||
-        (backtrace."0.3.24"."gimli-symbolize" or false); }
-      { "0.3.24".rustc-serialize =
-        (f.backtrace."0.3.24".rustc-serialize or false) ||
-        (f.backtrace."0.3.24".serialize-rustc or false) ||
-        (backtrace."0.3.24"."serialize-rustc" or false); }
-      { "0.3.24".serde =
-        (f.backtrace."0.3.24".serde or false) ||
-        (f.backtrace."0.3.24".serialize-serde or false) ||
-        (backtrace."0.3.24"."serialize-serde" or false); }
-      { "0.3.24".serde_derive =
-        (f.backtrace."0.3.24".serde_derive or false) ||
-        (f.backtrace."0.3.24".serialize-serde or false) ||
-        (backtrace."0.3.24"."serialize-serde" or false); }
-      { "0.3.24".std =
-        (f.backtrace."0.3.24".std or false) ||
-        (f.backtrace."0.3.24".default or false) ||
-        (backtrace."0.3.24"."default" or false); }
+      { "0.3.30".addr2line =
+        (f.backtrace."0.3.30".addr2line or false) ||
+        (f.backtrace."0.3.30".gimli-symbolize or false) ||
+        (backtrace."0.3.30"."gimli-symbolize" or false); }
+      { "0.3.30".backtrace-sys =
+        (f.backtrace."0.3.30".backtrace-sys or false) ||
+        (f.backtrace."0.3.30".libbacktrace or false) ||
+        (backtrace."0.3.30"."libbacktrace" or false); }
+      { "0.3.30".coresymbolication =
+        (f.backtrace."0.3.30".coresymbolication or false) ||
+        (f.backtrace."0.3.30".default or false) ||
+        (backtrace."0.3.30"."default" or false); }
+      { "0.3.30".dbghelp =
+        (f.backtrace."0.3.30".dbghelp or false) ||
+        (f.backtrace."0.3.30".default or false) ||
+        (backtrace."0.3.30"."default" or false); }
+      { "0.3.30".default = (f.backtrace."0.3.30".default or true); }
+      { "0.3.30".dladdr =
+        (f.backtrace."0.3.30".dladdr or false) ||
+        (f.backtrace."0.3.30".default or false) ||
+        (backtrace."0.3.30"."default" or false); }
+      { "0.3.30".findshlibs =
+        (f.backtrace."0.3.30".findshlibs or false) ||
+        (f.backtrace."0.3.30".gimli-symbolize or false) ||
+        (backtrace."0.3.30"."gimli-symbolize" or false); }
+      { "0.3.30".libbacktrace =
+        (f.backtrace."0.3.30".libbacktrace or false) ||
+        (f.backtrace."0.3.30".default or false) ||
+        (backtrace."0.3.30"."default" or false); }
+      { "0.3.30".libunwind =
+        (f.backtrace."0.3.30".libunwind or false) ||
+        (f.backtrace."0.3.30".default or false) ||
+        (backtrace."0.3.30"."default" or false); }
+      { "0.3.30".memmap =
+        (f.backtrace."0.3.30".memmap or false) ||
+        (f.backtrace."0.3.30".gimli-symbolize or false) ||
+        (backtrace."0.3.30"."gimli-symbolize" or false); }
+      { "0.3.30".rustc-serialize =
+        (f.backtrace."0.3.30".rustc-serialize or false) ||
+        (f.backtrace."0.3.30".serialize-rustc or false) ||
+        (backtrace."0.3.30"."serialize-rustc" or false); }
+      { "0.3.30".serde =
+        (f.backtrace."0.3.30".serde or false) ||
+        (f.backtrace."0.3.30".serialize-serde or false) ||
+        (backtrace."0.3.30"."serialize-serde" or false); }
+      { "0.3.30".serde_derive =
+        (f.backtrace."0.3.30".serde_derive or false) ||
+        (f.backtrace."0.3.30".serialize-serde or false) ||
+        (backtrace."0.3.30"."serialize-serde" or false); }
+      { "0.3.30".std =
+        (f.backtrace."0.3.30".std or false) ||
+        (f.backtrace."0.3.30".default or false) ||
+        (backtrace."0.3.30"."default" or false); }
     ];
-    backtrace_sys."${deps.backtrace."0.3.24".backtrace_sys}".default = true;
-    cfg_if."${deps.backtrace."0.3.24".cfg_if}".default = true;
-    libc."${deps.backtrace."0.3.24".libc}".default = (f.libc."${deps.backtrace."0.3.24".libc}".default or false);
-    rustc_demangle."${deps.backtrace."0.3.24".rustc_demangle}".default = true;
+    backtrace_sys."${deps.backtrace."0.3.30".backtrace_sys}".default = true;
+    cfg_if."${deps.backtrace."0.3.30".cfg_if}".default = true;
+    libc."${deps.backtrace."0.3.30".libc}".default = (f.libc."${deps.backtrace."0.3.30".libc}".default or false);
+    rustc_demangle."${deps.backtrace."0.3.30".rustc_demangle}".default = true;
   }) [
-    (features_.backtrace_sys."${deps."backtrace"."0.3.24"."backtrace_sys"}" deps)
-    (features_.cfg_if."${deps."backtrace"."0.3.24"."cfg_if"}" deps)
-    (features_.libc."${deps."backtrace"."0.3.24"."libc"}" deps)
-    (features_.rustc_demangle."${deps."backtrace"."0.3.24"."rustc_demangle"}" deps)
-    (features_.autocfg."${deps."backtrace"."0.3.24"."autocfg"}" deps)
+    (features_.backtrace_sys."${deps."backtrace"."0.3.30"."backtrace_sys"}" deps)
+    (features_.cfg_if."${deps."backtrace"."0.3.30"."cfg_if"}" deps)
+    (features_.libc."${deps."backtrace"."0.3.30"."libc"}" deps)
+    (features_.rustc_demangle."${deps."backtrace"."0.3.30"."rustc_demangle"}" deps)
+    (features_.autocfg."${deps."backtrace"."0.3.30"."autocfg"}" deps)
   ];
 
 
@@ -264,17 +264,18 @@ rec {
 
 
 # end
-# bitflags-1.0.4
+# bitflags-1.1.0
 
-  crates.bitflags."1.0.4" = deps: { features?(features_.bitflags."1.0.4" deps {}) }: buildRustCrate {
+  crates.bitflags."1.1.0" = deps: { features?(features_.bitflags."1.1.0" deps {}) }: buildRustCrate {
     crateName = "bitflags";
-    version = "1.0.4";
+    version = "1.1.0";
     authors = [ "The Rust Project Developers" ];
-    sha256 = "1g1wmz2001qmfrd37dnd5qiss5njrw26aywmg6yhkmkbyrhjxb08";
-    features = mkFeatures (features."bitflags"."1.0.4" or {});
+    sha256 = "1iwa4jrqcf4lnbwl562a3lx3r0jkh1j88b219bsqvbm4sni67dyv";
+    build = "build.rs";
+    features = mkFeatures (features."bitflags"."1.1.0" or {});
   };
-  features_.bitflags."1.0.4" = deps: f: updateFeatures f (rec {
-    bitflags."1.0.4".default = (f.bitflags."1.0.4".default or true);
+  features_.bitflags."1.1.0" = deps: f: updateFeatures f (rec {
+    bitflags."1.1.0".default = (f.bitflags."1.1.0".default or true);
   }) [];
 
 
@@ -407,23 +408,23 @@ rec {
 
 
 # end
-# byteorder-1.3.1
+# byteorder-1.3.2
 
-  crates.byteorder."1.3.1" = deps: { features?(features_.byteorder."1.3.1" deps {}) }: buildRustCrate {
+  crates.byteorder."1.3.2" = deps: { features?(features_.byteorder."1.3.2" deps {}) }: buildRustCrate {
     crateName = "byteorder";
-    version = "1.3.1";
+    version = "1.3.2";
     authors = [ "Andrew Gallant <jamslam@gmail.com>" ];
-    sha256 = "1dd46l7fvmxfq90kh6ip1ghsxzzcdybac8f0mh2jivsdv9vy8k4w";
+    sha256 = "099fxwc79ncpcl8dgg9hql8gznz11a3sjs7pai0mg6w8r05khvdx";
     build = "build.rs";
-    features = mkFeatures (features."byteorder"."1.3.1" or {});
+    features = mkFeatures (features."byteorder"."1.3.2" or {});
   };
-  features_.byteorder."1.3.1" = deps: f: updateFeatures f (rec {
+  features_.byteorder."1.3.2" = deps: f: updateFeatures f (rec {
     byteorder = fold recursiveUpdate {} [
-      { "1.3.1".default = (f.byteorder."1.3.1".default or true); }
-      { "1.3.1".std =
-        (f.byteorder."1.3.1".std or false) ||
-        (f.byteorder."1.3.1".default or false) ||
-        (byteorder."1.3.1"."default" or false); }
+      { "1.3.2".default = (f.byteorder."1.3.2".default or true); }
+      { "1.3.2".std =
+        (f.byteorder."1.3.2".std or false) ||
+        (f.byteorder."1.3.2".default or false) ||
+        (byteorder."1.3.2"."default" or false); }
     ];
   }) [];
 
@@ -1136,60 +1137,62 @@ rec {
 
 
 # end
-# libc-0.2.55
+# libc-0.2.58
 
-  crates.libc."0.2.55" = deps: { features?(features_.libc."0.2.55" deps {}) }: buildRustCrate {
+  crates.libc."0.2.58" = deps: { features?(features_.libc."0.2.58" deps {}) }: buildRustCrate {
     crateName = "libc";
-    version = "0.2.55";
+    version = "0.2.58";
     authors = [ "The Rust Project Developers" ];
-    sha256 = "1i3a7q8xpqlxfsyb421warvjwi8lvsxdcx2hzvd12qaxfpkbj3p5";
+    sha256 = "06yk3c0qlcn925ap1rrhikpzgwf504ydkcadj41kib7a06f66k7c";
     build = "build.rs";
     dependencies = mapFeatures features ([
 ]);
-    features = mkFeatures (features."libc"."0.2.55" or {});
+    features = mkFeatures (features."libc"."0.2.58" or {});
   };
-  features_.libc."0.2.55" = deps: f: updateFeatures f (rec {
+  features_.libc."0.2.58" = deps: f: updateFeatures f (rec {
     libc = fold recursiveUpdate {} [
-      { "0.2.55".align =
-        (f.libc."0.2.55".align or false) ||
-        (f.libc."0.2.55".rustc-dep-of-std or false) ||
-        (libc."0.2.55"."rustc-dep-of-std" or false); }
-      { "0.2.55".default = (f.libc."0.2.55".default or true); }
-      { "0.2.55".rustc-std-workspace-core =
-        (f.libc."0.2.55".rustc-std-workspace-core or false) ||
-        (f.libc."0.2.55".rustc-dep-of-std or false) ||
-        (libc."0.2.55"."rustc-dep-of-std" or false); }
-      { "0.2.55".use_std =
-        (f.libc."0.2.55".use_std or false) ||
-        (f.libc."0.2.55".default or false) ||
-        (libc."0.2.55"."default" or false); }
+      { "0.2.58".align =
+        (f.libc."0.2.58".align or false) ||
+        (f.libc."0.2.58".rustc-dep-of-std or false) ||
+        (libc."0.2.58"."rustc-dep-of-std" or false); }
+      { "0.2.58".default = (f.libc."0.2.58".default or true); }
+      { "0.2.58".rustc-std-workspace-core =
+        (f.libc."0.2.58".rustc-std-workspace-core or false) ||
+        (f.libc."0.2.58".rustc-dep-of-std or false) ||
+        (libc."0.2.58"."rustc-dep-of-std" or false); }
+      { "0.2.58".std =
+        (f.libc."0.2.58".std or false) ||
+        (f.libc."0.2.58".default or false) ||
+        (libc."0.2.58"."default" or false) ||
+        (f.libc."0.2.58".use_std or false) ||
+        (libc."0.2.58"."use_std" or false); }
     ];
   }) [];
 
 
 # end
-# libflate-0.1.22
+# libflate-0.1.23
 
-  crates.libflate."0.1.22" = deps: { features?(features_.libflate."0.1.22" deps {}) }: buildRustCrate {
+  crates.libflate."0.1.23" = deps: { features?(features_.libflate."0.1.23" deps {}) }: buildRustCrate {
     crateName = "libflate";
-    version = "0.1.22";
+    version = "0.1.23";
     authors = [ "Takeru Ohta <phjgt308@gmail.com>" ];
-    sha256 = "1ymp4ingz7qln1jm4kj0qkkjilkkm53b664j30v8diaw21wb0d4g";
+    sha256 = "1nj1acqc4qxnspzfn8q3gsp78kcy6bnj0bix5z74swsk9hsb6zk6";
     dependencies = mapFeatures features ([
-      (crates."adler32"."${deps."libflate"."0.1.22"."adler32"}" deps)
-      (crates."byteorder"."${deps."libflate"."0.1.22"."byteorder"}" deps)
-      (crates."crc32fast"."${deps."libflate"."0.1.22"."crc32fast"}" deps)
+      (crates."adler32"."${deps."libflate"."0.1.23"."adler32"}" deps)
+      (crates."byteorder"."${deps."libflate"."0.1.23"."byteorder"}" deps)
+      (crates."crc32fast"."${deps."libflate"."0.1.23"."crc32fast"}" deps)
     ]);
   };
-  features_.libflate."0.1.22" = deps: f: updateFeatures f (rec {
-    adler32."${deps.libflate."0.1.22".adler32}".default = true;
-    byteorder."${deps.libflate."0.1.22".byteorder}".default = true;
-    crc32fast."${deps.libflate."0.1.22".crc32fast}".default = true;
-    libflate."0.1.22".default = (f.libflate."0.1.22".default or true);
+  features_.libflate."0.1.23" = deps: f: updateFeatures f (rec {
+    adler32."${deps.libflate."0.1.23".adler32}".default = true;
+    byteorder."${deps.libflate."0.1.23".byteorder}".default = true;
+    crc32fast."${deps.libflate."0.1.23".crc32fast}".default = true;
+    libflate."0.1.23".default = (f.libflate."0.1.23".default or true);
   }) [
-    (features_.adler32."${deps."libflate"."0.1.22"."adler32"}" deps)
-    (features_.byteorder."${deps."libflate"."0.1.22"."byteorder"}" deps)
-    (features_.crc32fast."${deps."libflate"."0.1.22"."crc32fast"}" deps)
+    (features_.adler32."${deps."libflate"."0.1.23"."adler32"}" deps)
+    (features_.byteorder."${deps."libflate"."0.1.23"."byteorder"}" deps)
+    (features_.crc32fast."${deps."libflate"."0.1.23"."crc32fast"}" deps)
   ];
 
 
@@ -1391,22 +1394,22 @@ rec {
 
 
 # end
-# num_cpus-1.10.0
+# num_cpus-1.10.1
 
-  crates.num_cpus."1.10.0" = deps: { features?(features_.num_cpus."1.10.0" deps {}) }: buildRustCrate {
+  crates.num_cpus."1.10.1" = deps: { features?(features_.num_cpus."1.10.1" deps {}) }: buildRustCrate {
     crateName = "num_cpus";
-    version = "1.10.0";
+    version = "1.10.1";
     authors = [ "Sean McArthur <sean@seanmonstar.com>" ];
-    sha256 = "1411jyxy1wd8d59mv7cf6ynkvvar92czmwhb9l2c1brdkxbbiqn7";
+    sha256 = "1zi5s2cbnqqb0k0kdd6gqn2x97f9bssv44430h6w28awwzppyh8i";
     dependencies = mapFeatures features ([
-      (crates."libc"."${deps."num_cpus"."1.10.0"."libc"}" deps)
+      (crates."libc"."${deps."num_cpus"."1.10.1"."libc"}" deps)
     ]);
   };
-  features_.num_cpus."1.10.0" = deps: f: updateFeatures f (rec {
-    libc."${deps.num_cpus."1.10.0".libc}".default = true;
-    num_cpus."1.10.0".default = (f.num_cpus."1.10.0".default or true);
+  features_.num_cpus."1.10.1" = deps: f: updateFeatures f (rec {
+    libc."${deps.num_cpus."1.10.1".libc}".default = true;
+    num_cpus."1.10.1".default = (f.num_cpus."1.10.1".default or true);
   }) [
-    (features_.libc."${deps."num_cpus"."1.10.0"."libc"}" deps)
+    (features_.libc."${deps."num_cpus"."1.10.1"."libc"}" deps)
   ];
 
 
@@ -2280,58 +2283,58 @@ rec {
 
 
 # end
-# redox_installer-0.2.3
+# redox_installer-0.2.4
 
-  crates.redox_installer."0.2.3" = deps: { features?(features_.redox_installer."0.2.3" deps {}) }: buildRustCrate {
+  crates.redox_installer."0.2.4" = deps: { features?(features_.redox_installer."0.2.4" deps {}) }: buildRustCrate {
     crateName = "redox_installer";
-    version = "0.2.3";
+    version = "0.2.4";
     authors = [ "Jeremy Soller <jackpot51@gmail.com>" ];
-    sha256 = "0vwg5mm9h67yb07yzwzsj1wyyfi3dqhkkkwssrlmmwgm0w7k78rw";
+    sha256 = "1fk03zaipz9ji3xmyhnxasvmw2nyrxlzj4a4jjl6dwh91pbss5b0";
     libPath = "src/lib.rs";
     crateBin =
       [{  name = "redox_installer";  path = "src/bin/installer.rs"; }];
     dependencies = mapFeatures features ([
-      (crates."arg_parser"."${deps."redox_installer"."0.2.3"."arg_parser"}" deps)
-      (crates."argon2rs"."${deps."redox_installer"."0.2.3"."argon2rs"}" deps)
-      (crates."failure"."${deps."redox_installer"."0.2.3"."failure"}" deps)
-      (crates."libc"."${deps."redox_installer"."0.2.3"."libc"}" deps)
-      (crates."liner"."${deps."redox_installer"."0.2.3"."liner"}" deps)
-      (crates."rand"."${deps."redox_installer"."0.2.3"."rand"}" deps)
-      (crates."redox_pkgutils"."${deps."redox_installer"."0.2.3"."redox_pkgutils"}" deps)
-      (crates."redoxfs"."${deps."redox_installer"."0.2.3"."redoxfs"}" deps)
-      (crates."serde"."${deps."redox_installer"."0.2.3"."serde"}" deps)
-      (crates."serde_derive"."${deps."redox_installer"."0.2.3"."serde_derive"}" deps)
-      (crates."termion"."${deps."redox_installer"."0.2.3"."termion"}" deps)
-      (crates."toml"."${deps."redox_installer"."0.2.3"."toml"}" deps)
+      (crates."arg_parser"."${deps."redox_installer"."0.2.4"."arg_parser"}" deps)
+      (crates."argon2rs"."${deps."redox_installer"."0.2.4"."argon2rs"}" deps)
+      (crates."failure"."${deps."redox_installer"."0.2.4"."failure"}" deps)
+      (crates."libc"."${deps."redox_installer"."0.2.4"."libc"}" deps)
+      (crates."liner"."${deps."redox_installer"."0.2.4"."liner"}" deps)
+      (crates."rand"."${deps."redox_installer"."0.2.4"."rand"}" deps)
+      (crates."redox_pkgutils"."${deps."redox_installer"."0.2.4"."redox_pkgutils"}" deps)
+      (crates."redoxfs"."${deps."redox_installer"."0.2.4"."redoxfs"}" deps)
+      (crates."serde"."${deps."redox_installer"."0.2.4"."serde"}" deps)
+      (crates."serde_derive"."${deps."redox_installer"."0.2.4"."serde_derive"}" deps)
+      (crates."termion"."${deps."redox_installer"."0.2.4"."termion"}" deps)
+      (crates."toml"."${deps."redox_installer"."0.2.4"."toml"}" deps)
     ]);
   };
-  features_.redox_installer."0.2.3" = deps: f: updateFeatures f (rec {
-    arg_parser."${deps.redox_installer."0.2.3".arg_parser}".default = true;
-    argon2rs."${deps.redox_installer."0.2.3".argon2rs}".default = (f.argon2rs."${deps.redox_installer."0.2.3".argon2rs}".default or false);
-    failure."${deps.redox_installer."0.2.3".failure}".default = true;
-    libc."${deps.redox_installer."0.2.3".libc}".default = true;
-    liner."${deps.redox_installer."0.2.3".liner}".default = true;
-    rand."${deps.redox_installer."0.2.3".rand}".default = true;
-    redox_installer."0.2.3".default = (f.redox_installer."0.2.3".default or true);
-    redox_pkgutils."${deps.redox_installer."0.2.3".redox_pkgutils}".default = true;
-    redoxfs."${deps.redox_installer."0.2.3".redoxfs}".default = true;
-    serde."${deps.redox_installer."0.2.3".serde}".default = true;
-    serde_derive."${deps.redox_installer."0.2.3".serde_derive}".default = true;
-    termion."${deps.redox_installer."0.2.3".termion}".default = true;
-    toml."${deps.redox_installer."0.2.3".toml}".default = true;
+  features_.redox_installer."0.2.4" = deps: f: updateFeatures f (rec {
+    arg_parser."${deps.redox_installer."0.2.4".arg_parser}".default = true;
+    argon2rs."${deps.redox_installer."0.2.4".argon2rs}".default = (f.argon2rs."${deps.redox_installer."0.2.4".argon2rs}".default or false);
+    failure."${deps.redox_installer."0.2.4".failure}".default = true;
+    libc."${deps.redox_installer."0.2.4".libc}".default = true;
+    liner."${deps.redox_installer."0.2.4".liner}".default = true;
+    rand."${deps.redox_installer."0.2.4".rand}".default = true;
+    redox_installer."0.2.4".default = (f.redox_installer."0.2.4".default or true);
+    redox_pkgutils."${deps.redox_installer."0.2.4".redox_pkgutils}".default = true;
+    redoxfs."${deps.redox_installer."0.2.4".redoxfs}".default = true;
+    serde."${deps.redox_installer."0.2.4".serde}".default = true;
+    serde_derive."${deps.redox_installer."0.2.4".serde_derive}".default = true;
+    termion."${deps.redox_installer."0.2.4".termion}".default = true;
+    toml."${deps.redox_installer."0.2.4".toml}".default = true;
   }) [
-    (features_.arg_parser."${deps."redox_installer"."0.2.3"."arg_parser"}" deps)
-    (features_.argon2rs."${deps."redox_installer"."0.2.3"."argon2rs"}" deps)
-    (features_.failure."${deps."redox_installer"."0.2.3"."failure"}" deps)
-    (features_.libc."${deps."redox_installer"."0.2.3"."libc"}" deps)
-    (features_.liner."${deps."redox_installer"."0.2.3"."liner"}" deps)
-    (features_.rand."${deps."redox_installer"."0.2.3"."rand"}" deps)
-    (features_.redox_pkgutils."${deps."redox_installer"."0.2.3"."redox_pkgutils"}" deps)
-    (features_.redoxfs."${deps."redox_installer"."0.2.3"."redoxfs"}" deps)
-    (features_.serde."${deps."redox_installer"."0.2.3"."serde"}" deps)
-    (features_.serde_derive."${deps."redox_installer"."0.2.3"."serde_derive"}" deps)
-    (features_.termion."${deps."redox_installer"."0.2.3"."termion"}" deps)
-    (features_.toml."${deps."redox_installer"."0.2.3"."toml"}" deps)
+    (features_.arg_parser."${deps."redox_installer"."0.2.4"."arg_parser"}" deps)
+    (features_.argon2rs."${deps."redox_installer"."0.2.4"."argon2rs"}" deps)
+    (features_.failure."${deps."redox_installer"."0.2.4"."failure"}" deps)
+    (features_.libc."${deps."redox_installer"."0.2.4"."libc"}" deps)
+    (features_.liner."${deps."redox_installer"."0.2.4"."liner"}" deps)
+    (features_.rand."${deps."redox_installer"."0.2.4"."rand"}" deps)
+    (features_.redox_pkgutils."${deps."redox_installer"."0.2.4"."redox_pkgutils"}" deps)
+    (features_.redoxfs."${deps."redox_installer"."0.2.4"."redoxfs"}" deps)
+    (features_.serde."${deps."redox_installer"."0.2.4"."serde"}" deps)
+    (features_.serde_derive."${deps."redox_installer"."0.2.4"."serde_derive"}" deps)
+    (features_.termion."${deps."redox_installer"."0.2.4"."termion"}" deps)
+    (features_.toml."${deps."redox_installer"."0.2.4"."toml"}" deps)
   ];
 
 
@@ -2510,29 +2513,29 @@ rec {
 
 
 # end
-# remove_dir_all-0.5.1
+# remove_dir_all-0.5.2
 
-  crates.remove_dir_all."0.5.1" = deps: { features?(features_.remove_dir_all."0.5.1" deps {}) }: buildRustCrate {
+  crates.remove_dir_all."0.5.2" = deps: { features?(features_.remove_dir_all."0.5.2" deps {}) }: buildRustCrate {
     crateName = "remove_dir_all";
-    version = "0.5.1";
+    version = "0.5.2";
     authors = [ "Aaronepower <theaaronepower@gmail.com>" ];
-    sha256 = "1chx3yvfbj46xjz4bzsvps208l46hfbcy0sm98gpiya454n4rrl7";
+    sha256 = "04sxg2ppvxiljc2i13bwvpbi540rf9d2a89cq0wmqf9pjvr3a1wm";
     dependencies = (if kernel == "windows" then mapFeatures features ([
-      (crates."winapi"."${deps."remove_dir_all"."0.5.1"."winapi"}" deps)
+      (crates."winapi"."${deps."remove_dir_all"."0.5.2"."winapi"}" deps)
     ]) else []);
   };
-  features_.remove_dir_all."0.5.1" = deps: f: updateFeatures f (rec {
-    remove_dir_all."0.5.1".default = (f.remove_dir_all."0.5.1".default or true);
+  features_.remove_dir_all."0.5.2" = deps: f: updateFeatures f (rec {
+    remove_dir_all."0.5.2".default = (f.remove_dir_all."0.5.2".default or true);
     winapi = fold recursiveUpdate {} [
-      { "${deps.remove_dir_all."0.5.1".winapi}"."errhandlingapi" = true; }
-      { "${deps.remove_dir_all."0.5.1".winapi}"."fileapi" = true; }
-      { "${deps.remove_dir_all."0.5.1".winapi}"."std" = true; }
-      { "${deps.remove_dir_all."0.5.1".winapi}"."winbase" = true; }
-      { "${deps.remove_dir_all."0.5.1".winapi}"."winerror" = true; }
-      { "${deps.remove_dir_all."0.5.1".winapi}".default = true; }
+      { "${deps.remove_dir_all."0.5.2".winapi}"."errhandlingapi" = true; }
+      { "${deps.remove_dir_all."0.5.2".winapi}"."fileapi" = true; }
+      { "${deps.remove_dir_all."0.5.2".winapi}"."std" = true; }
+      { "${deps.remove_dir_all."0.5.2".winapi}"."winbase" = true; }
+      { "${deps.remove_dir_all."0.5.2".winapi}"."winerror" = true; }
+      { "${deps.remove_dir_all."0.5.2".winapi}".default = true; }
     ];
   }) [
-    (features_.winapi."${deps."remove_dir_all"."0.5.1"."winapi"}" deps)
+    (features_.winapi."${deps."remove_dir_all"."0.5.2"."winapi"}" deps)
   ];
 
 
@@ -2587,28 +2590,28 @@ rec {
 
 
 # end
-# rustc-demangle-0.1.14
+# rustc-demangle-0.1.15
 
-  crates.rustc_demangle."0.1.14" = deps: { features?(features_.rustc_demangle."0.1.14" deps {}) }: buildRustCrate {
+  crates.rustc_demangle."0.1.15" = deps: { features?(features_.rustc_demangle."0.1.15" deps {}) }: buildRustCrate {
     crateName = "rustc-demangle";
-    version = "0.1.14";
+    version = "0.1.15";
     authors = [ "Alex Crichton <alex@alexcrichton.com>" ];
-    sha256 = "07vl0ms3a27fpry9kh9piv08w7d51i5m7bgphk7pw4jygwzdy31f";
+    sha256 = "04rgsfzhz4k9s56vkczsdbvmvg9409xp0nw4cy99lb2i0aa0255s";
     dependencies = mapFeatures features ([
 ]);
-    features = mkFeatures (features."rustc_demangle"."0.1.14" or {});
+    features = mkFeatures (features."rustc_demangle"."0.1.15" or {});
   };
-  features_.rustc_demangle."0.1.14" = deps: f: updateFeatures f (rec {
+  features_.rustc_demangle."0.1.15" = deps: f: updateFeatures f (rec {
     rustc_demangle = fold recursiveUpdate {} [
-      { "0.1.14".compiler_builtins =
-        (f.rustc_demangle."0.1.14".compiler_builtins or false) ||
-        (f.rustc_demangle."0.1.14".rustc-dep-of-std or false) ||
-        (rustc_demangle."0.1.14"."rustc-dep-of-std" or false); }
-      { "0.1.14".core =
-        (f.rustc_demangle."0.1.14".core or false) ||
-        (f.rustc_demangle."0.1.14".rustc-dep-of-std or false) ||
-        (rustc_demangle."0.1.14"."rustc-dep-of-std" or false); }
-      { "0.1.14".default = (f.rustc_demangle."0.1.14".default or true); }
+      { "0.1.15".compiler_builtins =
+        (f.rustc_demangle."0.1.15".compiler_builtins or false) ||
+        (f.rustc_demangle."0.1.15".rustc-dep-of-std or false) ||
+        (rustc_demangle."0.1.15"."rustc-dep-of-std" or false); }
+      { "0.1.15".core =
+        (f.rustc_demangle."0.1.15".core or false) ||
+        (f.rustc_demangle."0.1.15".rustc-dep-of-std or false) ||
+        (rustc_demangle."0.1.15"."rustc-dep-of-std" or false); }
+      { "0.1.15".default = (f.rustc_demangle."0.1.15".default or true); }
     ];
   }) [];
 
@@ -2783,65 +2786,65 @@ rec {
 
 
 # end
-# serde-1.0.91
+# serde-1.0.92
 
-  crates.serde."1.0.91" = deps: { features?(features_.serde."1.0.91" deps {}) }: buildRustCrate {
+  crates.serde."1.0.92" = deps: { features?(features_.serde."1.0.92" deps {}) }: buildRustCrate {
     crateName = "serde";
-    version = "1.0.91";
+    version = "1.0.92";
     authors = [ "Erick Tryzelaar <erick.tryzelaar@gmail.com>" "David Tolnay <dtolnay@gmail.com>" ];
-    sha256 = "0pv2awcqq2y99hw15nsrkghzlcar8i5wg77w636zg9d10n6db5gf";
+    sha256 = "0h8mpx249fs4vcwi7dvl6jxqv7b1dxpnjbhkz6b58vxn6p0dzgbj";
     build = "build.rs";
     dependencies = mapFeatures features ([
 ]);
-    features = mkFeatures (features."serde"."1.0.91" or {});
+    features = mkFeatures (features."serde"."1.0.92" or {});
   };
-  features_.serde."1.0.91" = deps: f: updateFeatures f (rec {
+  features_.serde."1.0.92" = deps: f: updateFeatures f (rec {
     serde = fold recursiveUpdate {} [
-      { "1.0.91".default = (f.serde."1.0.91".default or true); }
-      { "1.0.91".serde_derive =
-        (f.serde."1.0.91".serde_derive or false) ||
-        (f.serde."1.0.91".derive or false) ||
-        (serde."1.0.91"."derive" or false); }
-      { "1.0.91".std =
-        (f.serde."1.0.91".std or false) ||
-        (f.serde."1.0.91".default or false) ||
-        (serde."1.0.91"."default" or false); }
-      { "1.0.91".unstable =
-        (f.serde."1.0.91".unstable or false) ||
-        (f.serde."1.0.91".alloc or false) ||
-        (serde."1.0.91"."alloc" or false); }
+      { "1.0.92".default = (f.serde."1.0.92".default or true); }
+      { "1.0.92".serde_derive =
+        (f.serde."1.0.92".serde_derive or false) ||
+        (f.serde."1.0.92".derive or false) ||
+        (serde."1.0.92"."derive" or false); }
+      { "1.0.92".std =
+        (f.serde."1.0.92".std or false) ||
+        (f.serde."1.0.92".default or false) ||
+        (serde."1.0.92"."default" or false); }
+      { "1.0.92".unstable =
+        (f.serde."1.0.92".unstable or false) ||
+        (f.serde."1.0.92".alloc or false) ||
+        (serde."1.0.92"."alloc" or false); }
     ];
   }) [];
 
 
 # end
-# serde_derive-1.0.91
+# serde_derive-1.0.92
 
-  crates.serde_derive."1.0.91" = deps: { features?(features_.serde_derive."1.0.91" deps {}) }: buildRustCrate {
+  crates.serde_derive."1.0.92" = deps: { features?(features_.serde_derive."1.0.92" deps {}) }: buildRustCrate {
     crateName = "serde_derive";
-    version = "1.0.91";
+    version = "1.0.92";
     authors = [ "Erick Tryzelaar <erick.tryzelaar@gmail.com>" "David Tolnay <dtolnay@gmail.com>" ];
-    sha256 = "112w47k0b51ixd5cfn265sghs3hddh2h8vr175s23dgacnc8nxqb";
+    sha256 = "0c9a6h88b57kzhnngmd2zx87miysz9mxb137m9nl8l0gaqz15wkv";
     procMacro = true;
     dependencies = mapFeatures features ([
-      (crates."proc_macro2"."${deps."serde_derive"."1.0.91"."proc_macro2"}" deps)
-      (crates."quote"."${deps."serde_derive"."1.0.91"."quote"}" deps)
-      (crates."syn"."${deps."serde_derive"."1.0.91"."syn"}" deps)
+      (crates."proc_macro2"."${deps."serde_derive"."1.0.92"."proc_macro2"}" deps)
+      (crates."quote"."${deps."serde_derive"."1.0.92"."quote"}" deps)
+      (crates."syn"."${deps."serde_derive"."1.0.92"."syn"}" deps)
     ]);
-    features = mkFeatures (features."serde_derive"."1.0.91" or {});
+    features = mkFeatures (features."serde_derive"."1.0.92" or {});
   };
-  features_.serde_derive."1.0.91" = deps: f: updateFeatures f (rec {
-    proc_macro2."${deps.serde_derive."1.0.91".proc_macro2}".default = true;
-    quote."${deps.serde_derive."1.0.91".quote}".default = true;
-    serde_derive."1.0.91".default = (f.serde_derive."1.0.91".default or true);
+  features_.serde_derive."1.0.92" = deps: f: updateFeatures f (rec {
+    proc_macro2."${deps.serde_derive."1.0.92".proc_macro2}".default = true;
+    quote."${deps.serde_derive."1.0.92".quote}".default = true;
+    serde_derive."1.0.92".default = (f.serde_derive."1.0.92".default or true);
     syn = fold recursiveUpdate {} [
-      { "${deps.serde_derive."1.0.91".syn}"."visit" = true; }
-      { "${deps.serde_derive."1.0.91".syn}".default = true; }
+      { "${deps.serde_derive."1.0.92".syn}"."visit" = true; }
+      { "${deps.serde_derive."1.0.92".syn}".default = true; }
     ];
   }) [
-    (features_.proc_macro2."${deps."serde_derive"."1.0.91"."proc_macro2"}" deps)
-    (features_.quote."${deps."serde_derive"."1.0.91"."quote"}" deps)
-    (features_.syn."${deps."serde_derive"."1.0.91"."syn"}" deps)
+    (features_.proc_macro2."${deps."serde_derive"."1.0.92"."proc_macro2"}" deps)
+    (features_.quote."${deps."serde_derive"."1.0.92"."quote"}" deps)
+    (features_.syn."${deps."serde_derive"."1.0.92"."syn"}" deps)
   ];
 
 
@@ -2891,91 +2894,91 @@ rec {
 
 
 # end
-# smallvec-0.6.9
+# smallvec-0.6.10
 
-  crates.smallvec."0.6.9" = deps: { features?(features_.smallvec."0.6.9" deps {}) }: buildRustCrate {
+  crates.smallvec."0.6.10" = deps: { features?(features_.smallvec."0.6.10" deps {}) }: buildRustCrate {
     crateName = "smallvec";
-    version = "0.6.9";
+    version = "0.6.10";
     authors = [ "Simon Sapin <simon.sapin@exyr.org>" ];
-    sha256 = "0p96l51a2pq5y0vn48nhbm6qslbc6k8h28cxm0pmzkqmj7xynz6w";
+    sha256 = "01w7xd79q0bwn683gk4ryw50ad1zzxkny10f7gkbaaj1ax6f4q4h";
     libPath = "lib.rs";
     dependencies = mapFeatures features ([
 ]);
-    features = mkFeatures (features."smallvec"."0.6.9" or {});
+    features = mkFeatures (features."smallvec"."0.6.10" or {});
   };
-  features_.smallvec."0.6.9" = deps: f: updateFeatures f (rec {
+  features_.smallvec."0.6.10" = deps: f: updateFeatures f (rec {
     smallvec = fold recursiveUpdate {} [
-      { "0.6.9".default = (f.smallvec."0.6.9".default or true); }
-      { "0.6.9".std =
-        (f.smallvec."0.6.9".std or false) ||
-        (f.smallvec."0.6.9".default or false) ||
-        (smallvec."0.6.9"."default" or false); }
+      { "0.6.10".default = (f.smallvec."0.6.10".default or true); }
+      { "0.6.10".std =
+        (f.smallvec."0.6.10".std or false) ||
+        (f.smallvec."0.6.10".default or false) ||
+        (smallvec."0.6.10"."default" or false); }
     ];
   }) [];
 
 
 # end
-# syn-0.15.34
+# syn-0.15.36
 
-  crates.syn."0.15.34" = deps: { features?(features_.syn."0.15.34" deps {}) }: buildRustCrate {
+  crates.syn."0.15.36" = deps: { features?(features_.syn."0.15.36" deps {}) }: buildRustCrate {
     crateName = "syn";
-    version = "0.15.34";
+    version = "0.15.36";
     authors = [ "David Tolnay <dtolnay@gmail.com>" ];
-    sha256 = "15vmpadp8qyrri6p1mp2z59dbapwds1r2z51v8nzpf3b9c6xvzpf";
+    sha256 = "0brimxqpqwhrw78rkz4k1ba1wv2cyk3nj5v37kn1m5pcn6nlmrsx";
     dependencies = mapFeatures features ([
-      (crates."proc_macro2"."${deps."syn"."0.15.34"."proc_macro2"}" deps)
-      (crates."unicode_xid"."${deps."syn"."0.15.34"."unicode_xid"}" deps)
+      (crates."proc_macro2"."${deps."syn"."0.15.36"."proc_macro2"}" deps)
+      (crates."unicode_xid"."${deps."syn"."0.15.36"."unicode_xid"}" deps)
     ]
-      ++ (if features.syn."0.15.34".quote or false then [ (crates.quote."${deps."syn"."0.15.34".quote}" deps) ] else []));
-    features = mkFeatures (features."syn"."0.15.34" or {});
+      ++ (if features.syn."0.15.36".quote or false then [ (crates.quote."${deps."syn"."0.15.36".quote}" deps) ] else []));
+    features = mkFeatures (features."syn"."0.15.36" or {});
   };
-  features_.syn."0.15.34" = deps: f: updateFeatures f (rec {
+  features_.syn."0.15.36" = deps: f: updateFeatures f (rec {
     proc_macro2 = fold recursiveUpdate {} [
-      { "${deps.syn."0.15.34".proc_macro2}"."proc-macro" =
-        (f.proc_macro2."${deps.syn."0.15.34".proc_macro2}"."proc-macro" or false) ||
-        (syn."0.15.34"."proc-macro" or false) ||
-        (f."syn"."0.15.34"."proc-macro" or false); }
-      { "${deps.syn."0.15.34".proc_macro2}".default = (f.proc_macro2."${deps.syn."0.15.34".proc_macro2}".default or false); }
+      { "${deps.syn."0.15.36".proc_macro2}"."proc-macro" =
+        (f.proc_macro2."${deps.syn."0.15.36".proc_macro2}"."proc-macro" or false) ||
+        (syn."0.15.36"."proc-macro" or false) ||
+        (f."syn"."0.15.36"."proc-macro" or false); }
+      { "${deps.syn."0.15.36".proc_macro2}".default = (f.proc_macro2."${deps.syn."0.15.36".proc_macro2}".default or false); }
     ];
     quote = fold recursiveUpdate {} [
-      { "${deps.syn."0.15.34".quote}"."proc-macro" =
-        (f.quote."${deps.syn."0.15.34".quote}"."proc-macro" or false) ||
-        (syn."0.15.34"."proc-macro" or false) ||
-        (f."syn"."0.15.34"."proc-macro" or false); }
-      { "${deps.syn."0.15.34".quote}".default = (f.quote."${deps.syn."0.15.34".quote}".default or false); }
+      { "${deps.syn."0.15.36".quote}"."proc-macro" =
+        (f.quote."${deps.syn."0.15.36".quote}"."proc-macro" or false) ||
+        (syn."0.15.36"."proc-macro" or false) ||
+        (f."syn"."0.15.36"."proc-macro" or false); }
+      { "${deps.syn."0.15.36".quote}".default = (f.quote."${deps.syn."0.15.36".quote}".default or false); }
     ];
     syn = fold recursiveUpdate {} [
-      { "0.15.34".clone-impls =
-        (f.syn."0.15.34".clone-impls or false) ||
-        (f.syn."0.15.34".default or false) ||
-        (syn."0.15.34"."default" or false); }
-      { "0.15.34".default = (f.syn."0.15.34".default or true); }
-      { "0.15.34".derive =
-        (f.syn."0.15.34".derive or false) ||
-        (f.syn."0.15.34".default or false) ||
-        (syn."0.15.34"."default" or false); }
-      { "0.15.34".parsing =
-        (f.syn."0.15.34".parsing or false) ||
-        (f.syn."0.15.34".default or false) ||
-        (syn."0.15.34"."default" or false); }
-      { "0.15.34".printing =
-        (f.syn."0.15.34".printing or false) ||
-        (f.syn."0.15.34".default or false) ||
-        (syn."0.15.34"."default" or false); }
-      { "0.15.34".proc-macro =
-        (f.syn."0.15.34".proc-macro or false) ||
-        (f.syn."0.15.34".default or false) ||
-        (syn."0.15.34"."default" or false); }
-      { "0.15.34".quote =
-        (f.syn."0.15.34".quote or false) ||
-        (f.syn."0.15.34".printing or false) ||
-        (syn."0.15.34"."printing" or false); }
+      { "0.15.36".clone-impls =
+        (f.syn."0.15.36".clone-impls or false) ||
+        (f.syn."0.15.36".default or false) ||
+        (syn."0.15.36"."default" or false); }
+      { "0.15.36".default = (f.syn."0.15.36".default or true); }
+      { "0.15.36".derive =
+        (f.syn."0.15.36".derive or false) ||
+        (f.syn."0.15.36".default or false) ||
+        (syn."0.15.36"."default" or false); }
+      { "0.15.36".parsing =
+        (f.syn."0.15.36".parsing or false) ||
+        (f.syn."0.15.36".default or false) ||
+        (syn."0.15.36"."default" or false); }
+      { "0.15.36".printing =
+        (f.syn."0.15.36".printing or false) ||
+        (f.syn."0.15.36".default or false) ||
+        (syn."0.15.36"."default" or false); }
+      { "0.15.36".proc-macro =
+        (f.syn."0.15.36".proc-macro or false) ||
+        (f.syn."0.15.36".default or false) ||
+        (syn."0.15.36"."default" or false); }
+      { "0.15.36".quote =
+        (f.syn."0.15.36".quote or false) ||
+        (f.syn."0.15.36".printing or false) ||
+        (syn."0.15.36"."printing" or false); }
     ];
-    unicode_xid."${deps.syn."0.15.34".unicode_xid}".default = true;
+    unicode_xid."${deps.syn."0.15.36".unicode_xid}".default = true;
   }) [
-    (features_.proc_macro2."${deps."syn"."0.15.34"."proc_macro2"}" deps)
-    (features_.quote."${deps."syn"."0.15.34"."quote"}" deps)
-    (features_.unicode_xid."${deps."syn"."0.15.34"."unicode_xid"}" deps)
+    (features_.proc_macro2."${deps."syn"."0.15.36"."proc_macro2"}" deps)
+    (features_.quote."${deps."syn"."0.15.36"."quote"}" deps)
+    (features_.unicode_xid."${deps."syn"."0.15.36"."unicode_xid"}" deps)
   ];
 
 
@@ -3101,38 +3104,38 @@ rec {
 
 
 # end
-# termion-1.5.2
+# termion-1.5.3
 
-  crates.termion."1.5.2" = deps: { features?(features_.termion."1.5.2" deps {}) }: buildRustCrate {
+  crates.termion."1.5.3" = deps: { features?(features_.termion."1.5.3" deps {}) }: buildRustCrate {
     crateName = "termion";
-    version = "1.5.2";
+    version = "1.5.3";
     authors = [ "ticki <Ticki@users.noreply.github.com>" "gycos <alexandre.bury@gmail.com>" "IGI-111 <igi-111@protonmail.com>" ];
-    sha256 = "0a8znl9hdnr9d21xskb2q77r6pkvrabh71b43371vy9wq97m78d9";
+    sha256 = "0l47ppblj8d97ch100100w9fbv47c3fhnqxbvsajcz2pj7ci414k";
     dependencies = mapFeatures features ([
-      (crates."numtoa"."${deps."termion"."1.5.2"."numtoa"}" deps)
+      (crates."numtoa"."${deps."termion"."1.5.3"."numtoa"}" deps)
     ])
       ++ (if !(kernel == "redox") then mapFeatures features ([
-      (crates."libc"."${deps."termion"."1.5.2"."libc"}" deps)
+      (crates."libc"."${deps."termion"."1.5.3"."libc"}" deps)
     ]) else [])
       ++ (if kernel == "redox" then mapFeatures features ([
-      (crates."redox_syscall"."${deps."termion"."1.5.2"."redox_syscall"}" deps)
-      (crates."redox_termios"."${deps."termion"."1.5.2"."redox_termios"}" deps)
+      (crates."redox_syscall"."${deps."termion"."1.5.3"."redox_syscall"}" deps)
+      (crates."redox_termios"."${deps."termion"."1.5.3"."redox_termios"}" deps)
     ]) else []);
   };
-  features_.termion."1.5.2" = deps: f: updateFeatures f (rec {
-    libc."${deps.termion."1.5.2".libc}".default = true;
+  features_.termion."1.5.3" = deps: f: updateFeatures f (rec {
+    libc."${deps.termion."1.5.3".libc}".default = true;
     numtoa = fold recursiveUpdate {} [
-      { "${deps.termion."1.5.2".numtoa}"."std" = true; }
-      { "${deps.termion."1.5.2".numtoa}".default = true; }
+      { "${deps.termion."1.5.3".numtoa}"."std" = true; }
+      { "${deps.termion."1.5.3".numtoa}".default = true; }
     ];
-    redox_syscall."${deps.termion."1.5.2".redox_syscall}".default = true;
-    redox_termios."${deps.termion."1.5.2".redox_termios}".default = true;
-    termion."1.5.2".default = (f.termion."1.5.2".default or true);
+    redox_syscall."${deps.termion."1.5.3".redox_syscall}".default = true;
+    redox_termios."${deps.termion."1.5.3".redox_termios}".default = true;
+    termion."1.5.3".default = (f.termion."1.5.3".default or true);
   }) [
-    (features_.numtoa."${deps."termion"."1.5.2"."numtoa"}" deps)
-    (features_.libc."${deps."termion"."1.5.2"."libc"}" deps)
-    (features_.redox_syscall."${deps."termion"."1.5.2"."redox_syscall"}" deps)
-    (features_.redox_termios."${deps."termion"."1.5.2"."redox_termios"}" deps)
+    (features_.numtoa."${deps."termion"."1.5.3"."numtoa"}" deps)
+    (features_.libc."${deps."termion"."1.5.3"."libc"}" deps)
+    (features_.redox_syscall."${deps."termion"."1.5.3"."redox_syscall"}" deps)
+    (features_.redox_termios."${deps."termion"."1.5.3"."redox_termios"}" deps)
   ];
 
 

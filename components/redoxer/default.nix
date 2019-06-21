@@ -11,8 +11,8 @@ let
   redoxer = (crates.redoxer {}).overrideAttrs (_old: {
     src = fetchgit {
       url = https://gitlab.redox-os.org/redox-os/redoxer;
-      rev = "97fbcf4a";
-      sha256 = "05918sz59zkhf16xq9ssv2wxar1sikp2lffd06hn2bc5wjy8dy5m";
+      rev = "eeaf0be";
+      sha256 = "199ngi3y7jywkhkjd4zbrzlpk255a4sbi2lp1h5095ash4y5r1ws";
     };
   });
   path = lib.makeBinPath [
