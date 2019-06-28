@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 dontOverrideCC() {
     vars=("AR" "AS" "CC" "CXX" "LD" "NM" "OBJCOPY" "OBJDUMP" "RANLIB"
           "READELF" "STRIP")
@@ -12,6 +14,8 @@ dontOverrideCC() {
 dontUseBinaries() {
     sed -i "s/^PREFIX_BINARY\?=.*$/PREFIX_BINARY?=0/" config.mk
 }
+
+cd "$(dirname "$0")"
 
 pushd "redox/mk" > /dev/null
 dontOverrideCC

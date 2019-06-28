@@ -31,7 +31,7 @@ git clone --recurse-submodules https://gitlab.redox-os.org/redox-os/redox-nix
 
 # Enter a nix development shell with all the necessary packages and patches.
 cd redox-nix
-./shell.sh
+nix-shell
 
 # Happy hacking on Redox!
 cd redox
