@@ -1,4 +1,4 @@
-{ root, callPackage, lib, fetchgit, rust, fuse, pkgconfig, makeWrapper, buildRustCrate, defaultCrateOverrides }:
+{ root, callPackage, lib, fetchgit, rust, fuse, pkgconfig, makeWrapper, buildRustCrate, defaultCrateOverrides, config }:
 let
   overrides = {
     cratesIO = callPackage ./crates-io.nix {};
@@ -9,11 +9,11 @@ let
 
   crates = (callPackage ./redoxer.nix overrides);
   redoxer = (crates.redoxer {}).overrideAttrs (_old: {
-    src = fetchgit {
+    src = config.srcFor "redoxer" (fetchgit {
       url = https://gitlab.redox-os.org/redox-os/redoxer;
-      rev = "eeaf0be";
+      rev = "0.2.6";
       sha256 = "0q61vmy21gm88y5ajqcpcp6v9xca1v52fycvpi0yq36g8jw78vfh";
-    };
+    });
   });
   path = lib.makeBinPath [
     (toString ~/.redoxer/toolchain)
