@@ -1,4 +1,4 @@
-{ pkgsFn ? import <nixpkgs>, redoxer ? null, redoxfs ? null }:
+{ pkgsFn ? import <nixpkgs>, ignoreOverrides ? false }:
 
 let
   pkgs = pkgsFn { overlays = [
@@ -12,15 +12,18 @@ let
   inherit (pkgs) lib;
 
   config = rec {
-    sources = {
-      inherit redoxer redoxfs;
-    };
-    srcFor = src: fn: if sources."${src}" == null
-                      then fn
-                      else lib.cleanSource (lib.cleanSourceWith {
-                        filter = name: type: (baseNameOf (toString name)) != "target";
-                        src = sources."${src}";
-                      });
+    sources = if builtins.pathExists ../my-overrides.nix && !ignoreOverrides
+              then import ../my-overrides.nix
+              else {};
+    srcFor =
+      if builtins.all (p: builtins.elem p ["redoxer" "redoxfs"]) (builtins.attrNames sources)
+      then src: fn: if sources ? "${src}"
+                    then lib.cleanSource (lib.cleanSourceWith {
+                      filter = name: type: (baseNameOf (toString name)) != "target";
+                      src = /. + sources."${src}";
+                    })
+                    else fn
+      else throw "One of the elements in my-overrides.nix was not an overridable package";
   };
 
   root = {

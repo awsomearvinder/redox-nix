@@ -3,5 +3,8 @@
 !redox/
 !components/
 
+# User configurations
+/my-overrides.nix
+
 # Binaries and other form of output
 result

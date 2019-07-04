@@ -56,11 +56,38 @@ make, we have started nix-ifying some repositories in the
 
  - [redoxfs](https://gitlab.redox-os.org/redox-os/redoxfs/) can be compiled by executing `nix-build components -A redoxfs`
  - [redoxer](https://gitlab.redox-os.org/redox-os/redoxer/) can be compiled by executing `nix-build components -A redoxer`
+ - `binary-gcc-install`, `binary-rust-install`, and
+   `binary-relibc-install` download and patch some toolchains from
+   [static.redox-os.org](https://static.redox-os.org/toolchain/x86_64-unknown-redox/). May
+   run out of memory.
 
 Every other component, for now, is available as normal in the `redox/`
 submodule.
 
-### redoxer
+## Overrides
+
+You can override the source of most components using
+`my-overrides.nix` in the root of the repository, like this:
+
+```nix
+{
+  redoxer = ./redoxer;
+  redoxfs = ./redoxfs;
+}
+```
+
+the sources are automatically stripped from binary files and other
+data that shouldn't be copied around endlessly to the nix store.
+
+To temporarily ignore overrides, you can pass `--arg ignoreOverrides
+true` to the command, such as
+```bash
+nix-build components -A redoxer --arg ignoreOverrides true
+```
+
+---
+
+## redoxer
 
 An amazing tool for testing programs on redox is `redoxer`. However,
 it currently has a few runtime dependencies that can be easy to miss
