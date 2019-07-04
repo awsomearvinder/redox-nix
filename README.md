@@ -59,3 +59,21 @@ make, we have started nix-ifying some repositories in the
 
 Every other component, for now, is available as normal in the `redox/`
 submodule.
+
+### redoxer
+
+An amazing tool for testing programs on redox is `redoxer`. However,
+it currently has a few runtime dependencies that can be easy to miss
+or have broken versions of. Nix eliminates this problem:
+
+```bash
+nix run -f ./components redoxer
+
+# Only needed first install:
+redoxer install
+rm -rf ~/.redoxer/toolchain
+nix-build components -A binary-rust-install -o ~/.redoxer/toolchain
+```
+
+It's sadly still not really one-click, but it's close enough for a
+one-time setup.

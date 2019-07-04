@@ -6,37 +6,37 @@ let inherit (lib.lists) fold;
 in
 rec {
   crates = cratesIO // rec {
-# redoxer-0.2.5
+# redoxer-0.2.6
 
-    crates.redoxer."0.2.5" = deps: { features?(features_.redoxer."0.2.5" deps {}) }: buildRustCrate {
+    crates.redoxer."0.2.6" = deps: { features?(features_.redoxer."0.2.6" deps {}) }: buildRustCrate {
       crateName = "redoxer";
-      version = "0.2.5";
+      version = "0.2.6";
       authors = [ "Jeremy Soller <jackpot51@gmail.com>" ];
       edition = "2018";
       src = exclude [ ".git" "target" ] ./.;
       dependencies = mapFeatures features ([
-        (cratesIO.crates."dirs"."${deps."redoxer"."0.2.5"."dirs"}" deps)
-        (cratesIO.crates."redox_installer"."${deps."redoxer"."0.2.5"."redox_installer"}" deps)
-        (cratesIO.crates."tempfile"."${deps."redoxer"."0.2.5"."tempfile"}" deps)
-        (cratesIO.crates."toml"."${deps."redoxer"."0.2.5"."toml"}" deps)
+        (cratesIO.crates."dirs"."${deps."redoxer"."0.2.6"."dirs"}" deps)
+        (cratesIO.crates."redox_installer"."${deps."redoxer"."0.2.6"."redox_installer"}" deps)
+        (cratesIO.crates."tempfile"."${deps."redoxer"."0.2.6"."tempfile"}" deps)
+        (cratesIO.crates."toml"."${deps."redoxer"."0.2.6"."toml"}" deps)
       ])
         ++ (if kernel == "linux" then mapFeatures features ([
-        (cratesIO.crates."proc_mounts"."${deps."redoxer"."0.2.5"."proc_mounts"}" deps)
+        (cratesIO.crates."proc_mounts"."${deps."redoxer"."0.2.6"."proc_mounts"}" deps)
       ]) else []);
     };
-    features_.redoxer."0.2.5" = deps: f: updateFeatures f (rec {
-      dirs."${deps.redoxer."0.2.5".dirs}".default = true;
-      proc_mounts."${deps.redoxer."0.2.5".proc_mounts}".default = true;
-      redox_installer."${deps.redoxer."0.2.5".redox_installer}".default = true;
-      redoxer."0.2.5".default = (f.redoxer."0.2.5".default or true);
-      tempfile."${deps.redoxer."0.2.5".tempfile}".default = true;
-      toml."${deps.redoxer."0.2.5".toml}".default = true;
+    features_.redoxer."0.2.6" = deps: f: updateFeatures f (rec {
+      dirs."${deps.redoxer."0.2.6".dirs}".default = true;
+      proc_mounts."${deps.redoxer."0.2.6".proc_mounts}".default = true;
+      redox_installer."${deps.redoxer."0.2.6".redox_installer}".default = true;
+      redoxer."0.2.6".default = (f.redoxer."0.2.6".default or true);
+      tempfile."${deps.redoxer."0.2.6".tempfile}".default = true;
+      toml."${deps.redoxer."0.2.6".toml}".default = true;
     }) [
-      (cratesIO.features_.dirs."${deps."redoxer"."0.2.5"."dirs"}" deps)
-      (cratesIO.features_.redox_installer."${deps."redoxer"."0.2.5"."redox_installer"}" deps)
-      (cratesIO.features_.tempfile."${deps."redoxer"."0.2.5"."tempfile"}" deps)
-      (cratesIO.features_.toml."${deps."redoxer"."0.2.5"."toml"}" deps)
-      (cratesIO.features_.proc_mounts."${deps."redoxer"."0.2.5"."proc_mounts"}" deps)
+      (cratesIO.features_.dirs."${deps."redoxer"."0.2.6"."dirs"}" deps)
+      (cratesIO.features_.redox_installer."${deps."redoxer"."0.2.6"."redox_installer"}" deps)
+      (cratesIO.features_.tempfile."${deps."redoxer"."0.2.6"."tempfile"}" deps)
+      (cratesIO.features_.toml."${deps."redoxer"."0.2.6"."toml"}" deps)
+      (cratesIO.features_.proc_mounts."${deps."redoxer"."0.2.6"."proc_mounts"}" deps)
     ];
 
 
@@ -44,7 +44,7 @@ rec {
 
   };
 
-  redoxer = crates.crates.redoxer."0.2.5" deps;
+  redoxer = crates.crates.redoxer."0.2.6" deps;
   __all = [ (redoxer {}) ];
   deps.adler32."1.0.3" = {};
   deps.arg_parser."0.1.0" = {};
@@ -335,7 +335,7 @@ rec {
     rand_os = "0.1.3";
     redox_syscall = "0.1.54";
   };
-  deps.redoxer."0.2.5" = {
+  deps.redoxer."0.2.6" = {
     dirs = "1.0.5";
     redox_installer = "0.2.4";
     tempfile = "3.0.8";

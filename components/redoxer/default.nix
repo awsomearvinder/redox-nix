@@ -12,11 +12,11 @@ let
     src = fetchgit {
       url = https://gitlab.redox-os.org/redox-os/redoxer;
       rev = "eeaf0be";
-      sha256 = "199ngi3y7jywkhkjd4zbrzlpk255a4sbi2lp1h5095ash4y5r1ws";
+      sha256 = "0q61vmy21gm88y5ajqcpcp6v9xca1v52fycvpi0yq36g8jw78vfh";
     };
   });
   path = lib.makeBinPath [
-    rust
+    (toString ~/.redoxer/toolchain)
     root.redoxfs
     (callPackage ./kvm.nix {})
   ];
