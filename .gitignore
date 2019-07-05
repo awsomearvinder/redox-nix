@@ -5,6 +5,7 @@
 
 # User configurations
 /my-overrides.nix
+/my-components.nix
 
 # Binaries and other form of output
 result

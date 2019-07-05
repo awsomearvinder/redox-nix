@@ -32,6 +32,10 @@ in redoxer.override {
   };
 
   postInstall = ''
-    wrapProgram $out/bin/redoxer --prefix PATH : "${path}"
+    wrapProgram $out/bin/redoxer \
+      `# redox installer uses $TARGET` \
+      --set TARGET x86_64-unknown-redox \
+      `# add necessary runtime PATH` \
+      --prefix PATH : "${path}"
   '';
 }

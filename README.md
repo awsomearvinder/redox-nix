@@ -85,6 +85,23 @@ true` to the command, such as
 nix-build components -A redoxer --arg ignoreOverrides true
 ```
 
+## Enable components
+
+You can enable specific components to automatically get installed in
+the `nix-shell` by creating the file `my-components.nix` at the root,
+inputting a list of components and specifying which components to
+enable. Function should input an inexact number of elements, as in the
+future I might want more inputs.
+
+Example:
+
+```nix
+{ components, ... }:
+with components; [
+  redoxer
+]
+```
+
 ---
 
 ## redoxer
@@ -94,7 +111,7 @@ it currently has a few runtime dependencies that can be easy to miss
 or have broken versions of. Nix eliminates this problem:
 
 ```bash
-nix run -f ./components redoxer
+nix run -f ./components redoxer # or enable redoxer in my-components.nix
 
 # Only needed first install:
 redoxer install
