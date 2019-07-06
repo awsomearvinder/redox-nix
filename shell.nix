@@ -5,6 +5,9 @@ let
 
   prefix = redox/prefix/x86_64-unknown-redox;
 
+  targetTriple = "x86_64-unknown-redox";
+  targetTripleUnderscore = builtins.replaceStrings ["-"] ["_"] targetTriple;
+
   components = if builtins.pathExists ./my-components.nix
                then import ./my-components.nix {
                  components = import ./components {};
@@ -50,10 +53,10 @@ in mkShell rec {
   RUST_TARGET_PATH      = toString redox/kernel/targets;
   XARGO_HOME            = toString redox/build/xargo;
   XARGO_RUST_SRC        = toString redox/rust/src;
-  TARGET = "x86_64-unknown-redox";
-  "AC_${builtins.replaceStrings ["-"] ["_"] TARGET}" = "${TARGET}-ac";
-  "CC_${builtins.replaceStrings ["-"] ["_"] TARGET}" = "${TARGET}-gcc";
-  "CXX_${builtins.replaceStrings ["-"] ["_"] TARGET}" = "${TARGET}-g++";
+  # TARGET = ...
+  "AC_${targetTripleUnderscore}" = "${targetTriple}-ac";
+  "CC_${targetTripleUnderscore}" = "${targetTriple}-gcc";
+  "CXX_${targetTripleUnderscore}" = "${targetTriple}-g++";
 
   shellHook = ''
     # Nix can't supply the fusermount binary because it is setuid.
