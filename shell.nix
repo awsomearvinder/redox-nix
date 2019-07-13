@@ -30,9 +30,8 @@ let
     cleanup() {
       make unmount
       rm "$file"
-      exit 1
     }
-    trap cleanup SIGINT
+    trap 'cleanup; exit 1' SIGINT
 
     file="$(mktemp || exit 1)"
     x86_64-unknown-redox-gcc -static $1 -o "$file" || exit 1
