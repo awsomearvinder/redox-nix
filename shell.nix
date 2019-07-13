@@ -24,6 +24,32 @@ let
       -ex "echo   ======================================\n\n" \
       -ex "set pagination on"
   '';
+  redox-copy-c = pkgs.writers.writeBashBin "redox-copy-c" ''
+    : ''${1:?redox-copy-c <path/to/file.c>}
+
+    cleanup() {
+      make unmount
+      rm "$file"
+      exit 1
+    }
+    trap cleanup SIGINT
+
+    file="$(mktemp || exit 1)"
+    x86_64-unknown-redox-gcc -static $1 -o "$file" || exit 1
+
+    make mount || exit 1
+
+    basename="$(basename "$1" | cut -d'.' -f1)"
+    install -m 0755 "$file" "${toString redox/build/filesystem/bin}/$basename"
+
+    cleanup
+  '';
+  redox-relibc-tests = pkgs.writers.writeBashBin "redox-relibc-tests" ''
+    make test \
+      TARGET=x86_64-unknown-redox \
+      PATH="$HOME/.redoxer/toolchain/bin:$PATH" \
+      TEST_RUNNER="redoxer exec --folder . -- sh --"
+  '';
 in mkShell rec {
   hardeningDisable = [ "all" ];
 
@@ -34,6 +60,8 @@ in mkShell rec {
 
     # All internal packages that need to be put in $PATH
     gdb-init
+    redox-relibc-tests
+    redox-copy-c
     (toString (prefix + "/relibc-install/"))
   ] ++ components;
 
