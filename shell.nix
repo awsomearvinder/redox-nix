@@ -14,15 +14,24 @@ let
                }
                else null;
 
+  pathPrefix = pkgs.lib.makeBinPath [
+    "/run/wrappers"
+    (toString (prefix + "/relibc-install"))
+  ];
+
   gdb-init = pkgs.writers.writeBashBin "gdb" ''
-    "${pkgs.gdb}/bin/gdb" \
-      -ex "symbol-file ${toString redox/build/kernel.sym}" \
-      -ex "set pagination off" \
-      -ex "echo \n======================================\n" \
-      -ex "echo   To connect to the Redox OS kernel, use\n" \
-      -ex "echo   (gdb) target remote localhost:1234\n" \
-      -ex "echo   ======================================\n\n" \
-      -ex "set pagination on"
+    if [ "$#" == 0 ]; then
+      "${pkgs.gdb}/bin/gdb" \
+        -ex "symbol-file ${toString redox/build/kernel.sym}" \
+        -ex "set pagination off" \
+        -ex "echo \n======================================\n" \
+        -ex "echo   To connect to the Redox OS kernel, use\n" \
+        -ex "echo   (gdb) target remote localhost:1234\n" \
+        -ex "echo   ======================================\n\n" \
+        -ex "set pagination on"
+    else
+      "${pkgs.gdb}/bin/gdb" "$@"
+    fi
   '';
   redox-copy-c = pkgs.writers.writeBashBin "redox-copy-c" ''
     : ''${1:?redox-copy-c <path/to/file.c>}
@@ -61,8 +70,7 @@ in mkShell rec {
     gdb-init
     redox-relibc-tests
     redox-copy-c
-    (toString (prefix + "/relibc-install/"))
-  ] ++ components;
+  ];
 
   # All packages that need to be installed as libraries
   buildInputs = with pkgs; [
@@ -87,7 +95,7 @@ in mkShell rec {
 
   shellHook = ''
     # Nix can't supply the fusermount binary because it is setuid.
-    export PATH="/run/wrappers/bin:$PATH"
+    export PATH="${pathPrefix}:$PATH"
     ${toString ./prepare.sh}
   '';
 }
