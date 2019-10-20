@@ -1,36 +1,22 @@
-{ root, callPackage, lib, fetchgit, rust, fuse, pkgconfig, makeWrapper, buildRustCrate, defaultCrateOverrides, config }:
+{ unstable, callPackage, root, lib, fetchgit, rust, fuse, pkgconfig, makeWrapper, buildRustCrate, defaultCrateOverrides, config }:
 let
-  overrides = {
-    cratesIO = callPackage ./crates-io.nix {};
-    buildRustCrate = buildRustCrate.override {
+  crates = callPackage ./Cargo.nix {
+    buildRustCrate = unstable.buildRustCrate.override {
       rustc = rust;
     };
   };
-
-  crates = (callPackage ./redoxer.nix overrides);
-  redoxer = (crates.redoxer {}).overrideAttrs (_old: {
-    src = config.srcFor "redoxer" (fetchgit {
-      url = https://gitlab.redox-os.org/redox-os/redoxer;
-      rev = "0.2.6";
-      sha256 = "0q61vmy21gm88y5ajqcpcp6v9xca1v52fycvpi0yq36g8jw78vfh";
-    });
-  });
   path = lib.makeBinPath [
     (toString ~/.redoxer/toolchain)
     root.redoxfs
     (callPackage ./kvm.nix {})
   ];
-in redoxer.override {
-  crateOverrides = defaultCrateOverrides // {
-    redoxer = _old: {
-      nativeBuildInputs = [ makeWrapper ];
-    };
-    fuse = _old: {
-      nativeBuildInputs = [ pkgconfig ];
-      buildInputs = [ fuse ];
-    };
-  };
-
+in crates.rootCrate.build.overrideAttrs (_old: {
+  src = config.srcFor "redoxer" (fetchgit {
+    url = https://gitlab.redox-os.org/redox-os/redoxer;
+    rev = "0.2.9";
+    sha256 = "0jwp3albhhbk5j0awn0fhb46sz9cjlra9b2kji6fb2gkndqjw7yi";
+  });
+  nativeBuildInputs = [ makeWrapper ];
   postInstall = ''
     wrapProgram $out/bin/redoxer \
       `# redox installer uses $TARGET` \
@@ -38,4 +24,4 @@ in redoxer.override {
       `# add necessary runtime PATH` \
       --prefix PATH : "${path}"
   '';
-}
+})

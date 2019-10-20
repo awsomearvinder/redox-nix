@@ -1,0 +1,21 @@
+{
+  "cfg-if 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)": "13g9p2mc5b2b5wn716fwvilzib376ycpkgk868yxfp16jzix57p7",
+  "fuchsia-cprng 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)": "07apwv9dj716yjlcj29p94vkqn5zmfh7hlrqvrjx3wzshphc95h9",
+  "fuse 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)": "06s8fmccm6armmad9wyashxi3lqysw8nyhsgm33nbp3gdh3b9n3d",
+  "libc 0.2.62 (registry+https://github.com/rust-lang/crates.io-index)": "1vsb4pyn6gl6sri6cv5hin5wjfgk7lk2bshzmxb1xnkckjhz4gbx",
+  "log 0.3.9 (registry+https://github.com/rust-lang/crates.io-index)": "19i9pwp7lhaqgzangcpw00kc3zsgcqcx84crv07xgz3v7d3kvfa2",
+  "log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)": "0wvzzzcn89dai172rrqcyz06pzldyyy0lf0w71csmn206rdpnb15",
+  "pkg-config 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)": "02yh110i3bh5v7b2lb7sj4l335w2zdlliqqd5i5qf28f94w1rry5",
+  "rand 0.3.23 (registry+https://github.com/rust-lang/crates.io-index)": "118rairvv46npqqx7hmkf97kkimjrry9z31z4inxcv2vn0nj1s2g",
+  "rand 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)": "0c3rmg5q7d6qdi7cbmg5py9alm70wd3xsg0mmcawrnl35qv37zfs",
+  "rand_core 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)": "0q0ssgpj9x5a6fda83nhmfydy7a6c0wvxm0jhncsmjx8qp8gw91m",
+  "rand_core 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)": "18zpzwn4bl7lp9f36iacy8mvdnfrhfmzsl35gmln98dcindff2ly",
+  "rdrand 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)": "15hrcasn0v876wpkwab1dwbk9kvqwrb3iv4y4dibb6yxnfvzwajk",
+  "redox_syscall 0.1.56 (registry+https://github.com/rust-lang/crates.io-index)": "0jcp8nd947zcy938bz09pzlmi3vyxfdzg92pjxdvvk0699vwcc26",
+  "thread-scoped 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)": "0wfqc78j363rpwwlwy578mgarb7dpl8h562qf8igxk9qinyw9w0v",
+  "time 0.1.42 (registry+https://github.com/rust-lang/crates.io-index)": "1ny809kmdjwd4b478ipc33dz7q6nq7rxk766x8cnrg6zygcksmmx",
+  "uuid 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)": "17d4csjmy7fa3ckrm40d3c3v411rw5d4400w756mcrzyw2pm1i2r",
+  "winapi 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)": "084ialbgww1vxry341fmkg5crgpvab3w52ahx1wa54yqjgym0vxs",
+  "winapi-i686-pc-windows-gnu 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)": "05ihkij18r4gamjpxj4gra24514can762imjzlmak5wlzidplzrp",
+  "winapi-x86_64-pc-windows-gnu 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)": "0n1ylmlsb8yg1v583i4xy0qmqg42275flvbc51hdqjjfjcl9vlbj"
+}

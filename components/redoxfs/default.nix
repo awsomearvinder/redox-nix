@@ -1,25 +1,14 @@
-{ callPackage, fetchgit, rust, fuse, pkgconfig, buildRustCrate, defaultCrateOverrides, config }:
+{ unstable, callPackage, fetchgit, rust, fuse, pkgconfig, buildRustCrate, defaultCrateOverrides, config }:
 let
-  overrides = {
-    cratesIO = callPackage ./crates-io.nix {};
-    buildRustCrate = buildRustCrate.override {
+  crates = callPackage ./Cargo.nix {
+    buildRustCrate = unstable.buildRustCrate.override {
       rustc = rust;
     };
   };
-
-  crates = (callPackage ./redoxfs.nix overrides);
-  redoxfs = (crates.redoxfs {}).overrideAttrs (_old: {
-    src = config.srcFor "redoxfs" (fetchgit {
-      url = https://gitlab.redox-os.org/redox-os/redoxfs;
-      rev = "a70a01bd";
-      sha256 = "121cz2rr3592rwrmihhwbg6xwabnja6f9gymmsm6lr6mhi73qn2f";
-    });
+in crates.rootCrate.build.overrideAttrs (_old: {
+  src = config.srcFor "redoxfs" (fetchgit {
+    url = https://gitlab.redox-os.org/redox-os/redoxfs;
+    rev = "bede93c";
+    sha256 = "1by15ysghazcvg2x60pryvq44xii9wm3wzqzb1n0kp2qj9llpgnx";
   });
-in redoxfs.override {
-  crateOverrides = defaultCrateOverrides // {
-    fuse = _old: {
-      nativeBuildInputs = [ pkgconfig ];
-      buildInputs = [ fuse ];
-    };
-  };
-}
+})
