@@ -70,6 +70,10 @@ in mkShell rec {
     gdb-init
     redox-relibc-tests
     redox-copy-c
+
+    # Packages that are needed to make the iso/live images
+    cdrkit syslinux
+    autogen
   ];
 
   # All packages that need to be installed as libraries
@@ -96,6 +100,7 @@ in mkShell rec {
   shellHook = ''
     # Nix can't supply the fusermount binary because it is setuid.
     export PATH="${pathPrefix}:$PATH"
+    export PATH="$PATH:~/.cargo/bin"
     ${toString ./prepare.sh}
   '';
 }
