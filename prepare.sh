@@ -10,14 +10,13 @@ dontOverrideCC() {
 
     find . -name "*.mk" -exec sed -i "s/\<$regex\>/_\1/g" "{}" \;
 }
-dontUseBinaries() {
-    sed -i "s/^PREFIX_BINARY?=.*$/PREFIX_BINARY?=0/" config.mk
-    sed -i "s/^PREFIX_RUSTC?=.*$/PREFIX_RUSTC?=0/" config.mk
+patchPrefix() {
+    patch prefix.mk ../../patch-prefix.patch --forward
 }
 
 cd "$(dirname "$0")"
 
 pushd "redox/mk" > /dev/null
 dontOverrideCC
-dontUseBinaries
+patchPrefix
 popd > /dev/null

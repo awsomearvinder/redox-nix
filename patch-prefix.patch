@@ -1,0 +1,12 @@
+diff --git a/mk/prefix.mk b/mk/prefix.mk
+index 5562fa1..e77a028 100644
+--- a/mk/prefix.mk
++++ b/mk/prefix.mk
+@@ -50,6 +50,7 @@ $(PREFIX)/rust-install: $(PREFIX)/rust-install.tar.gz
+ 	tar --extract --file "$<" --directory "$@.partial" --strip-components=1
+ 	touch "$@.partial"
+ 	mv "$@.partial" "$@"
++	find "$@" -executable -type f -exec patchelf --set-interpreter "$$INTERPRETER" "{}" \;
+ 
+ else
+ 

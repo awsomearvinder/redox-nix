@@ -87,6 +87,8 @@ in mkShell rec {
     (toString prefix)
   ];
 
+  INTERPRETER = "${stdenv.cc.libc}/lib/ld-linux-${builtins.replaceStrings ["_"] ["-"]stdenv.platform.kernelArch}.so.2";
+
   # Taken from mk/config.mk
   RUST_COMPILER_RT_ROOT = toString redox/rust/src/llvm-project/compiler-rt;
   RUST_TARGET_PATH      = toString redox/kernel/targets;
