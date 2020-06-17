@@ -1,6 +1,5 @@
 {
   pkgsFn ? import <nixpkgs>,
-  unstableFn ? import <nixos-unstable>,
   ignoreOverrides ? false,
 }:
 
@@ -10,9 +9,8 @@ let
     (import ./overlays/crate-overrides.nix { inherit config; })
   ];
   pkgs = pkgsFn { inherit overlays; };
-  unstable = unstableFn { inherit overlays; };
   rust = (pkgs.rustChannelOf {
-    date = "2019-08-08";
+    date = "2019-11-25";
     channel = "nightly";
   }).rust;
 
@@ -35,10 +33,10 @@ let
 
   root = {
     redoxer = pkgs.callPackage ./redoxer {
-      inherit unstable rust root config;
+      inherit rust root config;
     };
     redoxfs = pkgs.callPackage ./redoxfs {
-      inherit unstable rust config;
+      inherit rust config;
     };
     binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
       name = "gcc-install";

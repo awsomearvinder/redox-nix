@@ -1,14 +1,14 @@
-{ unstable, callPackage, fetchgit, rust, fuse, pkgconfig, buildRustCrate, defaultCrateOverrides, config }:
+{ callPackage, fetchgit, rust, fuse, pkgconfig, buildRustCrate, defaultCrateOverrides, config }:
 let
   crates = callPackage ./Cargo.nix {
-    buildRustCrate = unstable.buildRustCrate.override {
+    buildRustCrate = buildRustCrate.override {
       rustc = rust;
     };
   };
 in crates.rootCrate.build.overrideAttrs (_old: {
   src = config.srcFor "redoxfs" (fetchgit {
-    url = https://gitlab.redox-os.org/redox-os/redoxfs;
-    rev = "bede93c";
-    sha256 = "1by15ysghazcvg2x60pryvq44xii9wm3wzqzb1n0kp2qj9llpgnx";
+    url = "https://gitlab.redox-os.org/redox-os/redoxfs";
+    rev = "0.4.0";
+    sha256 = "05d1bl64fka3n9w7y04s80iyxgm5wrbvvk3f71fw1y4azg380pgw";
   });
 })

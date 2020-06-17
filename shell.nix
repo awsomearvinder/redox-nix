@@ -4,6 +4,7 @@ let
   inherit (pkgs) mkShell lib stdenv;
 
   prefix = redox/prefix/x86_64-unknown-redox;
+  relibcInstall = prefix + "/relibc-install";
 
   targetTriple = "x86_64-unknown-redox";
   targetTripleUnderscore = builtins.replaceStrings ["-"] ["_"] targetTriple;
@@ -16,7 +17,7 @@ let
 
   pathPrefix = pkgs.lib.makeBinPath [
     "/run/wrappers"
-    (toString (prefix + "/relibc-install"))
+    (toString relibcInstall)
   ];
 
   gdb-init = pkgs.writers.writeBashBin "gdb" ''
@@ -55,13 +56,16 @@ let
   redox-relibc-tests = pkgs.writers.writeBashBin "redox-relibc-tests" ''
     make test \
       TARGET=x86_64-unknown-redox \
-      PATH="$HOME/.redoxer/toolchain/bin:$PATH" \
+      PATH="${toString relibcInstall}:$PATH" \
       TEST_RUNNER="redoxer exec --folder . -- sh --"
   '';
 in mkShell rec {
   hardeningDisable = [ "all" ];
 
   nativeBuildInputs = with pkgs; [
+    # All user's selected components
+    components
+
     # All external packages that need to be put in $PATH
     autoconf automake bison cmake gcc gnumake gperf nasm pkgconfig
     qemu rustup
@@ -90,6 +94,7 @@ in mkShell rec {
   INTERPRETER = "${stdenv.cc.libc}/lib/ld-linux-${builtins.replaceStrings ["_"] ["-"]stdenv.platform.kernelArch}.so.2";
 
   # Taken from mk/config.mk
+  REDOXER_TOOLCHAIN     = toString relibcInstall;
   RUST_COMPILER_RT_ROOT = toString redox/rust/src/llvm-project/compiler-rt;
   RUST_TARGET_PATH      = toString redox/kernel/targets;
   XARGO_HOME            = toString redox/build/xargo;
