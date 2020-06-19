@@ -1,4 +1,4 @@
-{ callPackage, root, lib, fetchgit, rust, fuse, pkgconfig, makeWrapper, buildRustCrate, defaultCrateOverrides, config }:
+{ callPackage, root, lib, fetchgit, rust, makeWrapper, buildRustCrate, config }:
 let
   crates = callPackage ./Cargo.nix {
     buildRustCrate = buildRustCrate.override {

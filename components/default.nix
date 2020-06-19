@@ -38,6 +38,9 @@ let
     redoxfs = pkgs.callPackage ./redoxfs {
       inherit rust config;
     };
+    xargo = pkgs.callPackage ./xargo {
+      inherit rust config;
+    };
     binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
       name = "gcc-install";
     };

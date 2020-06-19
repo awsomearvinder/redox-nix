@@ -9,11 +9,7 @@ let
   targetTriple = "x86_64-unknown-redox";
   targetTripleUnderscore = builtins.replaceStrings ["-"] ["_"] targetTriple;
 
-  components = if builtins.pathExists ./my-components.nix
-               then import ./my-components.nix {
-                 components = import ./components {};
-               }
-               else null;
+  components = pkgs.callPackage ./components {};
 
   pathPrefix = pkgs.lib.makeBinPath [
     "/run/wrappers"
@@ -63,8 +59,10 @@ in mkShell rec {
   hardeningDisable = [ "all" ];
 
   nativeBuildInputs = with pkgs; [
-    # All user's selected components
-    components
+    # Cargo packages
+    components.redoxfs
+    components.redoxer
+    components.xargo
 
     # All external packages that need to be put in $PATH
     autoconf automake bison cmake gcc gnumake gperf nasm pkgconfig
