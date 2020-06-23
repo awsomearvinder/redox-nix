@@ -16,20 +16,6 @@ let
     (toString relibcInstall)
   ];
 
-  gdb-init = pkgs.writers.writeBashBin "gdb" ''
-    if [ "$#" == 0 ]; then
-      "${pkgs.gdb}/bin/gdb" \
-        -ex "symbol-file ${toString redox/build/kernel.sym}" \
-        -ex "set pagination off" \
-        -ex "echo \n======================================\n" \
-        -ex "echo   To connect to the Redox OS kernel, use\n" \
-        -ex "echo   (gdb) target remote localhost:1234\n" \
-        -ex "echo   ======================================\n\n" \
-        -ex "set pagination on"
-    else
-      "${pkgs.gdb}/bin/gdb" "$@"
-    fi
-  '';
   redox-copy-c = pkgs.writers.writeBashBin "redox-copy-c" ''
     : ''${1:?redox-copy-c <path/to/file.c>}
 
@@ -40,7 +26,7 @@ let
     trap 'cleanup; exit 1' SIGINT
 
     file="$(mktemp || exit 1)"
-    x86_64-unknown-redox-gcc -static $1 -o "$file" || exit 1
+    x86_64-unknown-redox-gcc -g -static $1 -o "$file" || exit 1
 
     make mount || exit 1
 
@@ -69,7 +55,6 @@ in mkShell rec {
     qemu rustup
 
     # All internal packages that need to be put in $PATH
-    gdb-init
     redox-relibc-tests
     redox-copy-c
 
