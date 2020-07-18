@@ -11,7 +11,10 @@ dontOverrideCC() {
     find . -name "*.mk" -exec sed -i "s/\<$regex\>/_\1/g" "{}" \;
 }
 patchPrefix() {
-    patch prefix.mk ../../patch-prefix.patch --forward
+    patch prefix.mk ../../patch-prefix.patch --forward -r - || true
+}
+fixQemuFreeze() {
+    sed 's/^\(QEMUFLAGS=\)-d /\1-display sdl -d /' -i qemu.mk
 }
 
 cd "$(dirname "$0")"
@@ -19,4 +22,5 @@ cd "$(dirname "$0")"
 pushd "redox/mk" > /dev/null
 dontOverrideCC
 patchPrefix
+fixQemuFreeze
 popd > /dev/null
