@@ -6,7 +6,7 @@ index 5562fa1..e77a028 100644
  	tar --extract --file "$<" --directory "$@.partial" --strip-components=1
  	touch "$@.partial"
  	mv "$@.partial" "$@"
-+	find "$@" -executable -type f -exec patchelf --set-interpreter "$$INTERPRETER" "{}" \;
++	find "$@" -executable -type f -exec patchelf --set-interpreter "$$(cat $$NIX_CC/nix-support/dynamic-linker)" "{}" \;
  
  else
  

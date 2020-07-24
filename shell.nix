@@ -16,6 +16,20 @@ let
     (toString relibcInstall)
   ];
 
+  gdb-init = pkgs.writers.writeBashBin "gdb" ''
+    if [ "$#" == 0 ]; then
+      "${pkgs.gdb}/bin/gdb" \
+        -ex "symbol-file ${toString redox/build/kernel.sym}" \
+        -ex "set pagination off" \
+        -ex "echo \n======================================\n" \
+        -ex "echo   To connect to the Redox OS kernel, use\n" \
+        -ex "echo   (gdb) target remote localhost:1234\n" \
+        -ex "echo   ======================================\n\n" \
+        -ex "set pagination on"
+    else
+      "${pkgs.gdb}/bin/gdb" "$@"
+    fi
+  '';
   redox-copy-c = pkgs.writers.writeBashBin "redox-copy-c" ''
     : ''${1:?redox-copy-c <path/to/file.c>}
 
@@ -55,6 +69,7 @@ in mkShell rec {
     qemu rustup
 
     # All internal packages that need to be put in $PATH
+    gdb-init
     redox-relibc-tests
     redox-copy-c
 
@@ -73,8 +88,6 @@ in mkShell rec {
     pkgs.gcc-unwrapped stdenv.cc.libc
     (toString prefix)
   ];
-
-  INTERPRETER = "${stdenv.cc.libc}/lib/ld-linux-${builtins.replaceStrings ["_"] ["-"]stdenv.platform.kernelArch}.so.2";
 
   # Taken from mk/config.mk
   REDOXER_TOOLCHAIN     = toString relibcInstall;
