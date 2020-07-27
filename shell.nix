@@ -100,8 +100,7 @@ in mkShell rec {
   "CC_${targetTripleUnderscore}" = "${targetTriple}-gcc";
   "CXX_${targetTripleUnderscore}" = "${targetTriple}-g++";
 
-  shellHook = ''
-    # Nix can't supply the fusermount binary because it is setuid.
+  SHELL_HOOK = ''
     export PATH="${pathPrefix}:$PATH"
     export PATH="$PATH:~/.cargo/bin"
     ${toString ./prepare.sh}
