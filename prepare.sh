@@ -11,7 +11,9 @@ dontOverrideCC() {
     find . -name "*.mk" -exec sed -i "s/\<$regex\>/_\1/g" "{}" \;
 }
 patchPrefix() {
-    patch prefix.mk ../../patch-prefix.patch --forward -r - || true
+    if ! patch -sfR --dry-run < ../../patch-prefix.patch; then
+        patch prefix.mk ../../patch-prefix.patch -sfr - || true
+    fi
 }
 fixQemuFreeze() {
     sed 's/^\(QEMUFLAGS=\)-d /\1-display sdl -d /' -i qemu.mk
