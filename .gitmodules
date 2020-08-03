@@ -1,4 +1,4 @@
 [submodule "redox"]
 	path = redox
 	url = https://gitlab.redox-os.org/redox-os/redox
-    ignore = all
+	ignore = all

@@ -84,8 +84,16 @@ in mkShell rec {
     perlPackages.HTMLParser
   ];
 
+  # Add needed run-time libraries
+  LD_LIBRARY_PATH = lib.makeLibraryPath [
+    pkgs.zlib # needed by rustc
+  ];
+
+  # Add needed build-time libraries
   LIBRARY_PATH = lib.makeLibraryPath [
-    pkgs.gcc-unwrapped stdenv.cc.libc
+    pkgs.gcc-unwrapped
+    stdenv.cc.libc
+
     (toString prefix)
   ];
 
