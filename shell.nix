@@ -31,23 +31,24 @@ let
     fi
   '';
   redox-copy-c = pkgs.writers.writeBashBin "redox-copy-c" ''
-    : ''${1:?redox-copy-c <path/to/file.c>}
+    : ''${1:?redox-copy-c <path/to/file.c> [gcc args...]}
 
-    cleanup() {
-      make unmount
-      rm "$file"
-    }
-    trap 'cleanup; exit 1' SIGINT
+    set -e
 
-    file="$(mktemp || exit 1)"
-    x86_64-unknown-redox-gcc -g -static $1 -o "$file" || exit 1
+    file="$(mktemp)"
+    x86_64-unknown-redox-gcc -g -static "$@" -o "$file"
 
-    make mount || exit 1
+    trap 'rm "$file"; exit 1' SIGINT
+    trap 'rm "$file"' EXIT
+
+    cd "${toString ./redox}"
+
+    make mount
+    trap 'make unmount; exit 1' SIGINT
+    trap 'make unmount' EXIT
 
     basename="$(basename "$1" | cut -d'.' -f1)"
     install -m 0755 "$file" "${toString redox/build/filesystem/bin}/$basename"
-
-    cleanup
   '';
   redox-relibc-tests = pkgs.writers.writeBashBin "redox-relibc-tests" ''
     make test \
