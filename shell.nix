@@ -67,7 +67,7 @@ in mkShell rec {
 
     # All external packages that need to be put in $PATH
     autoconf automake bison cmake gcc gnumake gperf nasm pkgconfig
-    qemu rustup
+    qemu rustup perlPackages.Po4a
 
     # All internal packages that need to be put in $PATH
     gdb-init
