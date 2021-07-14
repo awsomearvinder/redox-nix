@@ -56,6 +56,9 @@ let
     xargo = pkgs.callPackage ./xargo {
       inherit naersk;
     };
+    config = pkgs.callPackage ./config {
+      inherit naersk;
+    };
     binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
       name = "gcc-install";
     };

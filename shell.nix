@@ -64,6 +64,7 @@ in mkShell rec {
     components.redoxfs
     components.redoxer
     components.xargo
+    components.config
 
     # All external packages that need to be put in $PATH
     autoconf automake bison cmake gcc gnumake gperf nasm pkgconfig
