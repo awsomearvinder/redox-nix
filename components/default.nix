@@ -6,13 +6,28 @@
 let
   overlays = [
     (import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz))
-    (import ./overlays/crate-overrides.nix { inherit config; })
+    (self: super: {
+      rust = (self.rustChannelOf {
+        date = "2019-11-25";
+        channel = "nightly";
+      }).rust;
+    })
+    (self: super: {
+      naersk = (import (self.fetchFromGitHub {
+        owner = "nmattia";
+        repo = "naersk";
+        rev = "e09c320446c5c2516d430803f7b19f5833781337";
+        sha256 = "sGxlmfp5eXL5sAMNqHSb04Zq6gPl+JeltIZ226OYN0w=";
+      }));
+    })
   ];
+
   pkgs = pkgsFn { inherit overlays; };
-  rust = (pkgs.rustChannelOf {
-    date = "2019-11-25";
-    channel = "nightly";
-  }).rust;
+
+  naersk = pkgs.callPackage pkgs.naersk {
+    rustc = pkgs.rust;
+    cargo = pkgs.rust;
+  };
 
   inherit (pkgs) lib;
 
@@ -33,13 +48,13 @@ let
 
   root = {
     redoxer = pkgs.callPackage ./redoxer {
-      inherit rust root config;
+      inherit naersk root;
     };
     redoxfs = pkgs.callPackage ./redoxfs {
-      inherit rust config;
+      inherit naersk;
     };
     xargo = pkgs.callPackage ./xargo {
-      inherit rust config;
+      inherit naersk;
     };
     binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
       name = "gcc-install";
