@@ -7,7 +7,7 @@ let
   overlays = [
     (import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz))
     (self: super: {
-      rust = (self.rustChannelOf {
+      rust = (super.rustChannelOf {
         date = "2019-11-25";
         channel = "nightly";
       }).rust;
@@ -20,7 +20,7 @@ let
         sha256 = "sGxlmfp5eXL5sAMNqHSb04Zq6gPl+JeltIZ226OYN0w=";
       }));
     })
-  ];
+   ];
 
   pkgs = pkgsFn { inherit overlays; };
 
@@ -30,21 +30,6 @@ let
   };
 
   inherit (pkgs) lib;
-
-  config = rec {
-    sources = if builtins.pathExists ../my-overrides.nix && !ignoreOverrides
-              then import ../my-overrides.nix
-              else {};
-    srcFor =
-      if builtins.all (p: builtins.elem p ["redoxer" "redoxfs"]) (builtins.attrNames sources)
-      then src: fn: if sources ? "${src}"
-                    then lib.cleanSource (lib.cleanSourceWith {
-                      filter = name: type: (baseNameOf (toString name)) != "target";
-                      src = /. + sources."${src}";
-                    })
-                    else fn
-      else throw "One of the elements in my-overrides.nix was not an overridable package";
-  };
 
   root = {
     redoxer = pkgs.callPackage ./redoxer {
@@ -59,14 +44,35 @@ let
     config = pkgs.callPackage ./config {
       inherit naersk;
     };
-    binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
-      name = "gcc-install";
-    };
-    binary-rust-install = pkgs.callPackage ./binary-toolchain.nix {
-      name = "rust-install";
-    };
-    binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {
-      name = "relibc-install";
-    };
+    #to be honest, I don't know what these are for, and they are stopping the below from working. I'll
+    #get back to it later.
+
+    #binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
+    #  name = "gcc-install";
+    #};
+    #binary-rust-install = pkgs.callPackage ./binary-toolchain.nix {
+    #  name = "rust-install";
+    #};
+    #binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {
+    #  name = "relibc-install";
+    #};
   };
-in root
+# I think if we can get cargo to think ~/cargo/.bin is this folder we'll be set.
+# cargo install --list should pickup these assuming that holds true. That means 
+# custom packaging cargo? I wonder how easy / feasible that is and if I could upstream
+# it to nixpkgs. That might require buildFHSUserEnv though. Another possibility is 
+# potentially seeing if cargo could potentially accept a enviornment variable to change
+# the path of ~/cargo/.bin to something in the nix store. The final option is just not
+# using cargo install --list to figure out if these components are installed in the makefile.
+in pkgs.stdenv.mkDerivation {
+  name = "cargo_components";
+  phases = [ "installPhase" ];
+  # right now we just include all the components.
+  buildInputs = builtins.attrValues root;
+  installPhase = ''
+    mkdir -p $out/bin
+    for p in $buildInputs; do
+      ln -s  $p/bin/* $out/bin
+    done
+  '';
+}
