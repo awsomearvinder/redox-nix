@@ -32,30 +32,29 @@ let
   inherit (pkgs) lib;
 
   root = {
-    redoxer = pkgs.callPackage ./redoxer {
-      inherit naersk root;
+    components = {
+      redoxer = pkgs.callPackage ./redoxer {
+        inherit naersk root;
+      };
+      redoxfs = pkgs.callPackage ./redoxfs {
+        inherit naersk;
+      };
+      xargo = pkgs.callPackage ./xargo {
+        inherit naersk;
+      };
+      config = pkgs.callPackage ./config {
+        inherit naersk;
+      };
     };
-    redoxfs = pkgs.callPackage ./redoxfs {
-      inherit naersk;
+    binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
+      name = "gcc-install";
     };
-    xargo = pkgs.callPackage ./xargo {
-      inherit naersk;
+    binary-rust-install = pkgs.callPackage ./binary-toolchain.nix {
+      name = "rust-install";
     };
-    config = pkgs.callPackage ./config {
-      inherit naersk;
+    binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {
+      name = "relibc-install";
     };
-    #to be honest, I don't know what these are for, and they are stopping the below from working. I'll
-    #get back to it later.
-
-    #binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
-    #  name = "gcc-install";
-    #};
-    #binary-rust-install = pkgs.callPackage ./binary-toolchain.nix {
-    #  name = "rust-install";
-    #};
-    #binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {
-    #  name = "relibc-install";
-    #};
   };
 # I think if we can get cargo to think ~/cargo/.bin is this folder we'll be set.
 # cargo install --list should pickup these assuming that holds true. That means 
@@ -64,15 +63,18 @@ let
 # potentially seeing if cargo could potentially accept a enviornment variable to change
 # the path of ~/cargo/.bin to something in the nix store. The final option is just not
 # using cargo install --list to figure out if these components are installed in the makefile.
-in pkgs.stdenv.mkDerivation {
-  name = "cargo_components";
-  phases = [ "installPhase" ];
-  # right now we just include all the components.
-  buildInputs = builtins.attrValues root;
-  installPhase = ''
-    mkdir -p $out/bin
-    for p in $buildInputs; do
-      ln -s  $p/bin/* $out/bin
-    done
-  '';
+in {
+  cargo-components = pkgs.stdenv.mkDerivation {
+    name = "cargo_components";
+    phases = [ "installPhase" ];
+    # right now we just include all the components.
+    buildInputs = builtins.attrValues root.components;
+    installPhase = ''
+      mkdir -p $out/bin
+      for p in $buildInputs; do
+        ln -s  $p/bin/* $out/bin
+      done
+    '';
+  };
+  inherit (root) binary-gcc-install binary-rust-install relibc-install;
 }
