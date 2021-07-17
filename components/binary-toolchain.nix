@@ -8,8 +8,11 @@ let
   ];
 in stdenv.mkDerivation {
   name = "binary-${name}-latest";
-  src = builtins.fetchTarball (https://static.redox-os.org/toolchain/x86_64-unknown-redox/ + name + ".tar.gz");
+  src = builtins.fetchurl (https://static.redox-os.org/toolchain/x86_64-unknown-redox/ + name + ".tar.gz");
 
+  unpackPhase = ''
+  tar -xzvf $src
+  '';
   dontBuild = true;
   dontPatchELF = true;
   dontStrip = true;
