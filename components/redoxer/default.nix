@@ -2,8 +2,8 @@
 (naersk.buildPackage {
   src = (fetchgit {
     url = "https://gitlab.redox-os.org/redox-os/redoxer";
-    rev = "0.2.19";
-    sha256 = "0lakv5qg1qz0k0iw6p7i8mp97gbkiwn2723a0c1kiv7llaznv4l5";
+    rev = "ebac2a6c9e60ae4d7c2594ad7f4d2e9515dcc966";
+    sha256 = "LT8oC/mn+u3WZnCv5xO24DG7NChFP91wwjWtMGWznJ8=";
   });
   nativeBuildInputs = [ makeWrapper fuse pkg-config ];
   #postInstall = ''
