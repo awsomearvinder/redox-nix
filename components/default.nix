@@ -76,5 +76,5 @@ in {
       done
     '';
   };
-  inherit (root) binary-gcc-install binary-rust-install relibc-install;
+  inherit (root) binary-gcc-install binary-rust-install binary-relibc-install;
 }

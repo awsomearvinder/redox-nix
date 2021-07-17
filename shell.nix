@@ -64,8 +64,8 @@ in mkShell rec {
     components.cargo-components
 
     components.binary-gcc-install
-    #components.binary-rust-install
-    #components.binary-relibc-install
+    components.binary-rust-install
+    components.binary-relibc-install
     # All external packages that need to be put in $PATH
     autoconf automake bison cmake gcc gnumake gperf nasm pkgconfig
     qemu rustup perlPackages.Po4a
