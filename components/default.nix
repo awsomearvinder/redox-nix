@@ -31,6 +31,42 @@ let
 
   inherit (pkgs) lib;
 
+  # The binary toolchain for gcc includes a symlink from $root/lib/rustlib/src/rust
+  # to /home/redox/rust. Ofcourse, we don't know if /home/redox is where redox resides
+  # so as a hack, we remove the original symlink from $root/lib/rustlib/src/rust -> 
+  # /home/redox/rust and replace it with a symlink to another derivation we make instead,
+  # 'redox-rust', which is just the rust/ folder in ../redox
+  binary-gcc-install-broken-rust = pkgs.callPackage ./binary-toolchain.nix {
+    name = "gcc-install";
+  };
+
+  redox-rust = (pkgs.stdenv.mkDerivation {
+    name = "redox-rust";
+    src = ../redox/rust;
+    phases = [ "unpackPhase" "installPhase"];
+    installPhase = ''
+      mkdir $out
+      mv * $out/
+    '';
+  });
+
+  binary-gcc-install = binary-gcc-install-broken-rust.overrideAttrs (old: {
+    buildInputs = [
+      redox-rust
+    ];
+    installPhase = old.installPhase + ''
+      rm $out/lib/rustlib/src/rust
+      ln -s ${redox-rust} "$out/lib/rustlib/src/rust"
+    '';
+  });
+
+  binary-rust-install = (pkgs.callPackage ./binary-toolchain.nix {
+    name = "rust-install";
+  });
+
+  binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {
+    name = "relibc-install";
+  };
   root = {
     components = {
       redoxer = pkgs.callPackage ./redoxer {
@@ -46,15 +82,9 @@ let
         inherit naersk;
       };
     };
-    binary-gcc-install = pkgs.callPackage ./binary-toolchain.nix {
-      name = "gcc-install";
-    };
-    binary-rust-install = pkgs.callPackage ./binary-toolchain.nix {
-      name = "rust-install";
-    };
-    binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {
-      name = "relibc-install";
-    };
+    inherit binary-rust-install;
+    inherit binary-relibc-install;
+    inherit binary-gcc-install;
   };
 # I think if we can get cargo to think ~/cargo/.bin is this folder we'll be set.
 # cargo install --list should pickup these assuming that holds true. That means 
