@@ -1,6 +1,8 @@
 {
   pkgs ? import <nixpkgs>,
   ignoreOverrides ? false,
+  fetchFromGitLab,
+  lib,
 }: let
   naersk = pkgs.callPackage pkgs.naersk {
     rustc = pkgs.rustc;
@@ -16,11 +18,18 @@
   # 'redox-rust', which is just the rust/ folder in ../redox
   binary-gcc-install-broken-rust = pkgs.callPackage ./binary-toolchain.nix {
     name = "gcc-install";
+    hash = "1gky09s2hcjh08w27zmmi2lk627ldyhqywlzsiw8b7m1fa1akxar";
   };
 
   redox-rust = pkgs.stdenv.mkDerivation {
     name = "redox-rust";
-    src = ../redox/rust;
+    src = fetchFromGitLab {
+      domain = "gitlab.redox-os.org";
+      owner = "redox-os";
+      repo = "redox";
+      rev = "06aaf586591a850a0dbcd0821a37cba54611d282";
+      sha256 = "dW+ADeHoao5ypQM0wtsllwYFgg/XiB/d7sIhj4ogwJI=";
+    };
     phases = ["unpackPhase" "installPhase"];
     installPhase = ''
       mkdir $out
