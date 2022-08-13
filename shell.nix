@@ -1,6 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
-
-let
+{pkgs ? import <nixpkgs> {}}: let
   inherit (pkgs) mkShell lib stdenv;
 
   prefix = redox/prefix/x86_64-unknown-redox;
@@ -56,63 +54,81 @@ let
       PATH="${toString relibcInstall}:$PATH" \
       TEST_RUNNER="redoxer exec --folder . -- sh --"
   '';
-in mkShell rec {
-  hardeningDisable = [ "all" ];
+in
+  mkShell rec {
+    hardeningDisable = ["all"];
 
-  nativeBuildInputs = with pkgs; [
-    # Cargo packages
-    components.cargo-components
+    nativeBuildInputs = with pkgs; [
+      # Cargo packages
+      components.cargo-components
 
-    components.binary-gcc-install
-    components.binary-rust-install
-    components.binary-relibc-install
-    # All external packages that need to be put in $PATH
-    autoconf automake bison cmake gcc gnumake gperf nasm pkgconfig
-    qemu rustup perlPackages.Po4a
+      components.binary-gcc-install
+      components.binary-rust-install
+      components.binary-relibc-install
+      # All external packages that need to be put in $PATH
+      autoconf
+      automake
+      bison
+      cmake
+      gcc
+      gnumake
+      gperf
+      nasm
+      pkgconfig
+      qemu
+      rustup
+      perlPackages.Po4a
 
-    # All internal packages that need to be put in $PATH
-    gdb-init
-    redox-relibc-tests
-    redox-copy-c
+      # All internal packages that need to be put in $PATH
+      gdb-init
+      redox-relibc-tests
+      redox-copy-c
 
-    # Packages that are needed to make the iso/live images
-    cdrkit syslinux
-    autogen
-  ];
+      # Packages that are needed to make the iso/live images
+      cdrkit
+      syslinux
+      autogen
+    ];
 
-  # All packages that need to be installed as libraries
-  buildInputs = with pkgs; [
-    flex fuse gettext libpng libtool openssl perl
-    perlPackages.HTMLParser
-  ];
+    # All packages that need to be installed as libraries
+    buildInputs = with pkgs; [
+      flex
+      fuse
+      gettext
+      libpng
+      libtool
+      openssl
+      perl
+      perlPackages.HTMLParser
+    ];
 
-  # Add needed run-time libraries
-  LD_LIBRARY_PATH = lib.makeLibraryPath [
-    pkgs.zlib # needed by rustc
-  ];
+    # Add needed run-time libraries
+    LD_LIBRARY_PATH = lib.makeLibraryPath [
+      pkgs.zlib # needed by rustc
+    ];
 
-  # Add needed build-time libraries
-  LIBRARY_PATH = lib.makeLibraryPath [
-    pkgs.gcc-unwrapped
-    stdenv.cc.libc
+    # Add needed build-time libraries
+    LIBRARY_PATH = lib.makeLibraryPath [
+      pkgs.gcc-unwrapped
+      stdenv.cc.libc
 
-    (toString prefix)
-  ];
+      (toString prefix)
+    ];
 
-  # Taken from mk/config.mk
-  REDOXER_TOOLCHAIN     = toString relibcInstall;
-  RUST_COMPILER_RT_ROOT = toString redox/rust/src/llvm-project/compiler-rt;
-  RUST_TARGET_PATH      = toString redox/kernel/targets;
-  XARGO_HOME            = toString redox/build/xargo;
-  XARGO_RUST_SRC        = toString redox/rust/src;
-  # TARGET = ...
-  "AC_${targetTripleUnderscore}" = "${targetTriple}-ac";
-  "CC_${targetTripleUnderscore}" = "${targetTriple}-gcc";
-  "CXX_${targetTripleUnderscore}" = "${targetTriple}-g++";
+    # Taken from mk/config.mk
+    REDOXER_TOOLCHAIN = toString relibcInstall;
+    RUST_COMPILER_RT_ROOT = toString redox/rust/src/llvm-project/compiler-rt;
+    RUST_TARGET_PATH = toString redox/kernel/targets;
+    XARGO_HOME = toString redox/build/xargo;
+    XARGO_RUST_SRC = toString redox/rust/src;
+    # TARGET = ...
+    "AC_${targetTripleUnderscore}" = "${targetTriple}-ac";
+    "CC_${targetTripleUnderscore}" = "${targetTriple}-gcc";
+    "CXX_${targetTripleUnderscore}" = "${targetTriple}-g++";
 
-  SHELL_HOOK = ''
-    export PATH="${pathPrefix}:$PATH"
-    export PATH="$PATH:~/.cargo/bin"
-    ${toString ./prepare.sh}
-  '';
-}
+    SHELL_HOOK = ''
+      export PATH="${pathPrefix}:$PATH"
+      export PATH="$PATH:~/.cargo/bin"
+      ${toString ./prepare.sh}
+    '';
+  }

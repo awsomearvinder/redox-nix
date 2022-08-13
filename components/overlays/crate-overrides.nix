@@ -1,12 +1,11 @@
-{ config }:
-
-self: super:
-
+{config}: self: super:
 with super; {
-  defaultCrateOverrides = defaultCrateOverrides // {
-    fuse = _old: {
-      nativeBuildInputs = [ pkgconfig ];
-      buildInputs = [ fuse ];
+  defaultCrateOverrides =
+    defaultCrateOverrides
+    // {
+      fuse = _old: {
+        nativeBuildInputs = [pkgconfig];
+        buildInputs = [fuse];
+      };
     };
-  };
 }

@@ -1,28 +1,28 @@
 {
   pkgsFn ? import <nixpkgs>,
   ignoreOverrides ? false,
-}:
-
-let
+}: let
   overlays = [
     (import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz))
     (self: super: {
-      rust = (super.rustChannelOf {
-        date = "2020-07-27";
-        channel = "nightly";
-      }).rust;
+      rust =
+        (super.rustChannelOf {
+          date = "2020-07-27";
+          channel = "nightly";
+        })
+        .rust;
     })
     (self: super: {
-      naersk = (import (self.fetchFromGitHub {
+      naersk = import (self.fetchFromGitHub {
         owner = "nmattia";
         repo = "naersk";
         rev = "e09c320446c5c2516d430803f7b19f5833781337";
         sha256 = "sGxlmfp5eXL5sAMNqHSb04Zq6gPl+JeltIZ226OYN0w=";
-      }));
+      });
     })
-   ];
+  ];
 
-  pkgs = pkgsFn { inherit overlays; };
+  pkgs = pkgsFn {inherit overlays;};
 
   naersk = pkgs.callPackage pkgs.naersk {
     rustc = pkgs.rust;
@@ -33,36 +33,38 @@ let
 
   # The binary toolchain for gcc includes a symlink from $root/lib/rustlib/src/rust
   # to /home/redox/rust. Ofcourse, we don't know if /home/redox is where redox resides
-  # so as a hack, we remove the original symlink from $root/lib/rustlib/src/rust -> 
+  # so as a hack, we remove the original symlink from $root/lib/rustlib/src/rust ->
   # /home/redox/rust and replace it with a symlink to another derivation we make instead,
   # 'redox-rust', which is just the rust/ folder in ../redox
   binary-gcc-install-broken-rust = pkgs.callPackage ./binary-toolchain.nix {
     name = "gcc-install";
   };
 
-  redox-rust = (pkgs.stdenv.mkDerivation {
+  redox-rust = pkgs.stdenv.mkDerivation {
     name = "redox-rust";
     src = ../redox/rust;
-    phases = [ "unpackPhase" "installPhase"];
+    phases = ["unpackPhase" "installPhase"];
     installPhase = ''
       mkdir $out
       mv * $out/
     '';
-  });
+  };
 
   binary-gcc-install = binary-gcc-install-broken-rust.overrideAttrs (old: {
     buildInputs = [
       redox-rust
     ];
-    installPhase = old.installPhase + ''
-      rm $out/lib/rustlib/src/rust
-      ln -s ${redox-rust} "$out/lib/rustlib/src/rust"
-    '';
+    installPhase =
+      old.installPhase
+      + ''
+        rm $out/lib/rustlib/src/rust
+        ln -s ${redox-rust} "$out/lib/rustlib/src/rust"
+      '';
   });
 
-  binary-rust-install = (pkgs.callPackage ./binary-toolchain.nix {
+  binary-rust-install = pkgs.callPackage ./binary-toolchain.nix {
     name = "rust-install";
-  });
+  };
 
   binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {
     name = "relibc-install";
@@ -86,17 +88,17 @@ let
     inherit binary-relibc-install;
     inherit binary-gcc-install;
   };
-# I think if we can get cargo to think ~/cargo/.bin is this folder we'll be set.
-# cargo install --list should pickup these assuming that holds true. That means 
-# custom packaging cargo? I wonder how easy / feasible that is and if I could upstream
-# it to nixpkgs. That might require buildFHSUserEnv though. Another possibility is 
-# potentially seeing if cargo could potentially accept a enviornment variable to change
-# the path of ~/cargo/.bin to something in the nix store. The final option is just not
-# using cargo install --list to figure out if these components are installed in the makefile.
+  # I think if we can get cargo to think ~/cargo/.bin is this folder we'll be set.
+  # cargo install --list should pickup these assuming that holds true. That means
+  # custom packaging cargo? I wonder how easy / feasible that is and if I could upstream
+  # it to nixpkgs. That might require buildFHSUserEnv though. Another possibility is
+  # potentially seeing if cargo could potentially accept a enviornment variable to change
+  # the path of ~/cargo/.bin to something in the nix store. The final option is just not
+  # using cargo install --list to figure out if these components are installed in the makefile.
 in {
   cargo-components = pkgs.stdenv.mkDerivation {
     name = "cargo_components";
-    phases = [ "installPhase" ];
+    phases = ["installPhase"];
     # right now we just include all the components.
     buildInputs = builtins.attrValues root.components;
     installPhase = ''
