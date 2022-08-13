@@ -47,6 +47,7 @@
 
   binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {
     name = "relibc-install";
+    hash = "0wjfhgp46avmqhbrjfxkr5q95mmjy4yg8dd8934y7kjnadw5npn8";
   };
   root = {
     components = {
