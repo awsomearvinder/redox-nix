@@ -3,8 +3,8 @@
   ignoreOverrides ? false,
 }: let
   naersk = pkgs.callPackage pkgs.naersk {
-    rustc = pkgs.rust;
-    cargo = pkgs.rust;
+    rustc = pkgs.rustc;
+    cargo = pkgs.cargo;
   };
 
   inherit (pkgs) lib;
