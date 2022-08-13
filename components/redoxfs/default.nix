@@ -7,8 +7,8 @@
 naersk.buildPackage {
   src = fetchgit {
     url = "https://gitlab.redox-os.org/redox-os/redoxfs";
-    rev = "25be3a82bd881d6e778e72ed1451f2b2a10369a8";
-    sha256 = "WX3ynuH3plOlK0osg29F/uNq5zevv1F/ZV46x0DDp2c=";
+    rev = "63468fc4141e662ea91eb55e251ba9134d52b22b";
+    sha256 = "IeBsqtAUWdqnyB3NYf9vA6ZUgESy5SMVmM0uHLFHYXI=";
   };
   nativeBuildInputs = [fuse pkg-config];
 }
