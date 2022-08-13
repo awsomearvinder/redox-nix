@@ -42,6 +42,7 @@
 
   binary-rust-install = pkgs.callPackage ./binary-toolchain.nix {
     name = "rust-install";
+    hash = "03pwph29dq0imlgl0f4c01z1r7ck0j86ixvsm1h9xznif9zjnmgb";
   };
 
   binary-relibc-install = pkgs.callPackage ./binary-toolchain.nix {

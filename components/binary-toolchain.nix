@@ -3,6 +3,7 @@
   lib,
   gcc-unwrapped,
   name,
+  hash,
 }: let
   rpath = lib.makeLibraryPath [
     gcc-unwrapped
@@ -12,7 +13,10 @@
 in
   stdenv.mkDerivation {
     name = "binary-${name}-latest";
-    src = builtins.fetchurl (https://static.redox-os.org/toolchain/x86_64-unknown-redox/ + name + ".tar.gz");
+    src = builtins.fetchurl {
+      url = https://static.redox-os.org/toolchain/x86_64-unknown-redox/ + name + ".tar.gz";
+      sha256 = hash;
+    };
 
     unpackPhase = ''
       tar -xzvf $src
