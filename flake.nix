@@ -29,8 +29,9 @@
       overlays = [
         (final: prev: {
           naersk = nixpkgs.legacyPackages.${system}.callPackage naersk-flake;
+          rustc = fenix-flake.packages.${system}.default.rustc;
+          cargo = fenix-flake.packages.${system}.default.cargo;
         })
-        fenix-flake.overlay
       ];
     };
   in {
