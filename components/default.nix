@@ -1,29 +1,7 @@
 {
-  pkgsFn ? import <nixpkgs>,
+  pkgs ? import <nixpkgs>,
   ignoreOverrides ? false,
 }: let
-  overlays = [
-    (import (builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz))
-    (self: super: {
-      rust =
-        (super.rustChannelOf {
-          date = "2020-07-27";
-          channel = "nightly";
-        })
-        .rust;
-    })
-    (self: super: {
-      naersk = import (self.fetchFromGitHub {
-        owner = "nmattia";
-        repo = "naersk";
-        rev = "e09c320446c5c2516d430803f7b19f5833781337";
-        sha256 = "sGxlmfp5eXL5sAMNqHSb04Zq6gPl+JeltIZ226OYN0w=";
-      });
-    })
-  ];
-
-  pkgs = pkgsFn {inherit overlays;};
-
   naersk = pkgs.callPackage pkgs.naersk {
     rustc = pkgs.rust;
     cargo = pkgs.rust;
