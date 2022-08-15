@@ -28,7 +28,8 @@
       owner = "redox-os";
       repo = "redox";
       rev = "06aaf586591a850a0dbcd0821a37cba54611d282";
-      sha256 = "dW+ADeHoao5ypQM0wtsllwYFgg/XiB/d7sIhj4ogwJI=";
+      fetchSubmodules = true;
+      sha256 = "OVZgwliElLY3x1OkJ2C49EQQo9gS7naOxJEN0t8RUhc=";
     };
     phases = ["unpackPhase" "installPhase"];
     installPhase = ''
@@ -45,7 +46,7 @@
       old.installPhase
       + ''
         rm $out/lib/rustlib/src/rust
-        ln -s ${redox-rust} "$out/lib/rustlib/src/rust"
+        ln -s ${redox-rust}/rust "$out/lib/rustlib/src/rust"
       '';
   });
 
